@@ -1,0 +1,90 @@
+.ui-datepicker {
+}
+
+.ui-autocomplete-loading {
+	background: white url("images/ui-anim_basic_16x16.gif") right center
+		no-repeat;
+}
+
+input[type=reset], input[type=submit] {
+	float: right;
+}
+
+input[type=text] {
+	min-width: 200px;
+}
+
+label.displayLabel {
+	font-size: 100%;
+	font-weight: bold;
+	text-align: left;
+}
+
+label.formLabel {
+	font-size: 125%;
+	font-weight: bold;
+	text-align: justify;
+	margin-right: 15px;
+	float: left;
+	width: 10%;
+}
+
+label.search {
+	font-size: 125%;
+	font-weight: bold;
+	padding-right: 1px;
+}
+
+legend {
+	font-size: 175%;
+	color: #808080;
+}
+
+fieldset {
+	border-style: hidden;
+}
+
+ul#nav {
+	top: 50px;
+	left: 10px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 20px;
+	display: inline;
+	overflow: hidden;
+	width: 400px;
+}
+
+ul#nav li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style-type: none;
+}
+
+div.ui-widget {
+	font-size: 100%;
+}
+
+div#footer {
+	padding-top: 30px;
+	font-size: 75%;
+}
+
+div#content {
+	padding-top: 30px;
+	font-size: 75%;
+}
+
+div#navigation {
+	font-size: 75%;
+}
+
+h1 {
+	font-size: 36px;
+}
+
+body {
+	font-family: Arial;
+}
