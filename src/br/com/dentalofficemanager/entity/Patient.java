@@ -24,6 +24,8 @@ public class Patient {
 	@NotNull
 	private String addressNumber;
 	private String addressDistrict;
+	private String addressCity;
+	private String addressState;
 	@NotNull
 	private String addressPostalCode;
 	
@@ -80,6 +82,18 @@ public class Patient {
 	}
 	public void setAddressDistrict(String addressDistrict) {
 		this.addressDistrict = addressDistrict;
+	}
+	public String getAddressCity() {
+		return addressCity;
+	}
+	public void setAddressCity(String addressCity) {
+		this.addressCity = addressCity;
+	}
+	public String getAddressState() {
+		return addressState;
+	}
+	public void setAddressState(String addressState) {
+		this.addressState = addressState;
 	}
 	public String getAddressPostalCode() {
 		return addressPostalCode;

@@ -63,7 +63,8 @@
 				
 				<label class="formLabel" id="fieldset-label" for="phoneNumber">Telefone:</label> 
 				<input type="text" name="phoneNumber"/>  <br /><br />
-				
+			</fieldset>
+			<fieldset>
 				<legend>Endereço</legend>
 				
 				<label class="formLabel" id="fieldset-label" for="addressStreet">Rua:</label> 
@@ -78,10 +79,9 @@
 				<label class="formLabel" id="fieldset-label" for="addressPostalCode">Cep:</label> 
 				<input type="text" name="addressPostalCode"/> <br />
 
-				<input type="reset" value="cancelar"/>
-				<input type="submit" value="registrar"/>
-				
 			</fieldset>
+			<input type="reset" value="cancelar"/>
+			<input type="submit" value="registrar"/>
 		</form>
 	</div>
 	

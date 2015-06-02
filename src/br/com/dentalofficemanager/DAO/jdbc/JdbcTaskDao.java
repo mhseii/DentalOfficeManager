@@ -1,4 +1,4 @@
-package br.com.dentalofficemanager.DAO;
+package br.com.dentalofficemanager.DAO.jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -46,7 +46,7 @@ public class JdbcTaskDao {
 		}
 	}
 
-	public void removeTask(Task t) {
+	public void deleteTask(Task t) {
 
 		if (t.getId() == null) {
 			throw new IllegalStateException("Task ID cannot be null");
@@ -64,7 +64,7 @@ public class JdbcTaskDao {
 		}
 	}
 
-	public void alterTask(Task task) {
+	public void updateTask(Task task) {
 
 		String sql = "update task set description = ?, finished = ?, endDate = ? where id = ?";
 		PreparedStatement ps;
@@ -121,7 +121,7 @@ public class JdbcTaskDao {
 		return taskList;
 	}
 
-	public Task seachTaskId(Long id) {
+	public Task searchTaskId(Long id) {
 		if (id == null) {
 			throw new IllegalStateException("ID cannot be null");
 		}

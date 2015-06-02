@@ -4,25 +4,28 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.dentalofficemanager.DAO.JdbcTaskDao;
+import br.com.dentalofficemanager.DAO.jdbc.JdbcTaskDao;
+import br.com.dentalofficemanager.DAO.jpa.TaskDao;
 import br.com.dentalofficemanager.entity.Task;
 
-
-
+@Transactional
 @Controller
 public class TaskController {
 	
-	private final JdbcTaskDao dao;
+	/*private final JdbcTaskDao dao;
 	
 	@Autowired
 	public TaskController(JdbcTaskDao dao) {
 		this.dao = dao;
-	}
+	}*/
+	@Autowired
+	TaskDao dao;
 
 	//	Creates a new task
 	@RequestMapping(value = "registerTask", method = RequestMethod.GET)
@@ -44,7 +47,7 @@ public class TaskController {
 	//	Open a task's details
 	@RequestMapping(value = "viewTask", method = RequestMethod.GET)
 	public String viewTask(Long id, Model model) {
-		model.addAttribute("task", dao.seachTaskId(id));
+		model.addAttribute("task", dao.searchTaskId(id));
 		return "/task/view";
 	}
 
@@ -60,7 +63,7 @@ public class TaskController {
 	 * through the action = "alterTask" field */
 	@RequestMapping(value = "alterTask", method = RequestMethod.POST)
 	public String alterTask(Task task) {
-		dao.alterTask(task);
+		dao.updateTask(task);
 		return "redirect:listTasks";
 	}
 	
@@ -68,14 +71,14 @@ public class TaskController {
 	@RequestMapping(value = "finishThisTask", method = RequestMethod.POST)
 	public String finishTask(Long id, Model model){
 		dao.finishTask(id);
-		model.addAttribute("task", dao.seachTaskId(id));
+		model.addAttribute("task", dao.searchTaskId(id));
 		return "task/finished_task";
 	}
 
 	//	Delete a task from the DB
 	@RequestMapping(value = "removeTask", method = RequestMethod.GET)
 	public String removeTask(Task t) {
-		dao.removeTask(t);
+		dao.deleteTask(t);
 		return "redirect:listTasks";
 	}
 }

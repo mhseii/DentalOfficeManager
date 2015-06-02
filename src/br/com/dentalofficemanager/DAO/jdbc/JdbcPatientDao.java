@@ -1,4 +1,4 @@
-package br.com.dentalofficemanager.DAO;
+package br.com.dentalofficemanager.DAO.jdbc;
 
 import java.sql.Connection;
 import java.sql.Date;

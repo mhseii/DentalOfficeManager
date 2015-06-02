@@ -2,20 +2,34 @@ package br.com.dentalofficemanager.entity;
 
 import java.util.Calendar;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
 public class Task {
 
+	@Id
+	@GeneratedValue
 	private Long id;
 	@NotNull(message = "{task.description.notNull}")
 	@Size(min = 10, message = "{task.description.tooShort}")
 	private String description;
 	private boolean finished;
+	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Column(name = "end_date")
 	private Calendar endDate;
+
+	public Task() {
+	}
 
 	public Long getId() {
 		return id;

@@ -1,35 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
-			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
-								 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
-			 version="2.0">
-
-	<persistence-unit name="patient" >
-	
-		<!-- JPA implementation-->
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	<persistence-unit name="persistenceUnit"
+		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		
-		<!-- Mapped Entity -->
+		<class>br.com.dentalofficemanager.entity.Task</class>
 		<properties>
-		
-			<!-- driver location -->
-			<!-- <property name="javax.persistence.jdbc.driver" 
-				value="com.mysql.jdbc.driver"/>
-			<property name="javax.persistence.jdbc.url" 
-				value="jdbc:mysql://localhost/dentalofficemanager"/> -->
-			
-			<!-- access to DB -->
-			<!-- <property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="admin123"/> -->
-			
-			<!-- Hibernate properties -->
-			<property name="hibernate.dialect" 	value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-			<property name="hibernate.show_sql" value="true"/>
-			<property name="hibernate.format_sql" value="true"/>
-			
-			<!-- Update DB and create tables whenever it needs to -->
-			<property name="hibernate.hbm2dll.auto" value="update"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
+			<property name="hibernate.connection.charSet" value="UTF-8" />
 		</properties>
 	</persistence-unit>
 </persistence>

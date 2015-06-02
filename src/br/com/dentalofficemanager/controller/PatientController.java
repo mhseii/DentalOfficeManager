@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.dentalofficemanager.DAO.JdbcPatientDao;
+import br.com.dentalofficemanager.DAO.jdbc.JdbcPatientDao;
 import br.com.dentalofficemanager.entity.Patient;
 
 @Controller
