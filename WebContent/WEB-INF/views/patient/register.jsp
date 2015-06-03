@@ -63,8 +63,7 @@
 				
 				<label class="formLabel" id="fieldset-label" for="phoneNumber">Telefone:</label> 
 				<input type="text" name="phoneNumber"/>  <br /><br />
-			</fieldset>
-			<fieldset>
+				
 				<legend>Endereço</legend>
 				
 				<label class="formLabel" id="fieldset-label" for="addressStreet">Rua:</label> 
@@ -73,12 +72,17 @@
 				<label class="formLabel" id="fieldset-label" for="addressNumber">Número:</label> 
 				<input type="text" name="addressNumber"/> <br />
 					
-				<label class="formLabel" id="fieldset-label" for="addressPostalCode">Bairro:</label> 
+				<label class="formLabel" id="fieldset-label" for="addressDistrict">Bairro:</label> 
 				<input type="text" name="addressDistrict"/> <br />
+				
+				<label class="formLabel" id="fieldset-label" for="addressCity">Cidade:</label> 
+				<input type="text" name="addressCity"/> <br />
+				
+				<label class="formLabel" id="fieldset-label" for="addressState">Estado:</label> 
+				<input type="text" name="addressState"/> <br />
 				
 				<label class="formLabel" id="fieldset-label" for="addressPostalCode">Cep:</label> 
 				<input type="text" name="addressPostalCode"/> <br />
-
 			</fieldset>
 			<input type="reset" value="cancelar"/>
 			<input type="submit" value="registrar"/>

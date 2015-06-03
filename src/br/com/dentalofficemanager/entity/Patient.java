@@ -2,18 +2,28 @@ package br.com.dentalofficemanager.entity;
 
 import java.util.Calendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Entity
 public class Patient {
 
+	@Id
+	@GeneratedValue
 	private long id;
 	@NotNull
 	private String firstName;
 	@NotNull
 	private String lastName;
+	@NotNull
 	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Calendar birthDate;
 	@NotNull
 	private String cpf;
@@ -23,10 +33,13 @@ public class Patient {
 	private String addressStreet;
 	@NotNull
 	private String addressNumber;
-	private String addressDistrict;
-	private String addressCity;
-	private String addressState;
 	@NotNull
+	private String addressDistrict;
+	@NotNull
+	private String addressCity;
+	@NotNull
+	private String addressState;
+	
 	private String addressPostalCode;
 	
 	public long getId() {
@@ -101,4 +114,16 @@ public class Patient {
 	public void setAddressPostalCode(String addressPostalCode) {
 		this.addressPostalCode = addressPostalCode;
 	}
+	
+	@Override
+	public String toString() {
+		return "Patient [id=" + id + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", birthDate=" + birthDate.getTimeInMillis() + ", cpf=" + cpf
+				+ ", phoneNumber=" + phoneNumber + ", addressStreet="
+				+ addressStreet + ", addressNumber=" + addressNumber
+				+ ", addressDistrict=" + addressDistrict + ", addressCity="
+				+ addressCity + ", addressState=" + addressState
+				+ ", addressPostalCode=" + addressPostalCode + "]";
+	}
+	
 }

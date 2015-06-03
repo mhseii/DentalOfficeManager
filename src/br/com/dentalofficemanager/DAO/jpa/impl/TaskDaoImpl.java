@@ -1,4 +1,4 @@
-package br.com.dentalofficemanager.DAO.impl;
+package br.com.dentalofficemanager.DAO.jpa.impl;
 
 import java.util.Calendar;
 import java.util.List;

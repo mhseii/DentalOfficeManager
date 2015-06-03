@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,16 +14,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.dentalofficemanager.DAO.jdbc.JdbcPatientDao;
+import br.com.dentalofficemanager.DAO.jpa.PatientDao;
 import br.com.dentalofficemanager.entity.Patient;
 
+@Transactional
 @Controller
 public class PatientController {
-	private JdbcPatientDao dao;
+	
+	@Autowired
+	PatientDao dao;
+	/*private JdbcPatientDao dao;
 	
 	@Autowired
 	public PatientController(JdbcPatientDao dao) {
 		this.dao = dao;
-	}
+	}*/
 	
 	@RequestMapping(value = "patient_management", method = RequestMethod.GET)
 	public String managePatients() {
@@ -35,8 +41,9 @@ public class PatientController {
 	}
 	
 	@RequestMapping(value = "patientRegistrationForm", method = RequestMethod.POST)
-	public String patientRegistrationForm(@Valid Patient p) {
-		dao.addPatient(p);
+	public String patientRegistrationForm(Patient patient) {
+		System.out.println(patient.toString());
+		dao.addPatient(patient);
 		return "redirect:list_patients";
 	}
 	

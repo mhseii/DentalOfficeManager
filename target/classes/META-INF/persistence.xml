@@ -6,9 +6,10 @@
 		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>br.com.dentalofficemanager.entity.Task</class>
+		<class>br.com.dentalofficemanager.entity.Patient</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="validate" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
 			<property name="hibernate.connection.charSet" value="UTF-8" />
 		</properties>
