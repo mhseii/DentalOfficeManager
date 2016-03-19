@@ -46,10 +46,10 @@ public class JdbcPatientDao {
 			ps.setDate(3, new Date(p.getBirthDate().getTimeInMillis()));
 			ps.setString(4, p.getCpf());
 			ps.setString(5, p.getPhoneNumber());
-			ps.setString(6, p.getAddressStreet());
-			ps.setString(7, p.getAddressNumber());
-			ps.setString(8, p.getAddressDistrict());
-			ps.setString(9, p.getAddressPostalCode());
+//			ps.setString(6, p.getAddressStreet());
+//			ps.setString(7, p.getAddressNumber());
+//			ps.setString(8, p.getAddressDistrict());
+//			ps.setString(9, p.getAddressPostalCode());
 			ps.execute();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -137,17 +137,17 @@ public class JdbcPatientDao {
 
 		Patient patient = new Patient();
 
-		patient.setId(rs.getLong("id"));
+//		patient.setPatientId(rs.getLong("id"));
 		patient.setFirstName(rs.getString("firstName"));
 		patient.setLastName(rs.getString("lastName"));
 		Date birthDate = rs.getDate("birthDate");
 		patient.setBirthDate(dateToCalendar(birthDate));
 		patient.setCpf(rs.getString("cpf"));
 		patient.setPhoneNumber(rs.getString("phoneNumber"));
-		patient.setAddressStreet(rs.getString("addressStreet"));
-		patient.setAddressNumber(rs.getString("addressNumber"));
-		patient.setAddressDistrict(rs.getString("addressDistrict"));
-		patient.setAddressPostalCode(rs.getString("addressPostalCode"));
+//		patient.setAddressStreet(rs.getString("addressStreet"));
+//		patient.setAddressNumber(rs.getString("addressNumber"));
+//		patient.setAddressDistrict(rs.getString("addressDistrict"));
+//		patient.setAddressPostalCode(rs.getString("addressPostalCode"));
 
 		return patient;
 	}

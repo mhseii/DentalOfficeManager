@@ -29,7 +29,7 @@ public class PatientDaoImpl implements PatientDao {
 	}
 
 	public List<Patient> searchPatient(String query) {
-		String searchPatientQuery = "SELECT p FROM patient p WHERE p.first_name LIKE '" + query.toLowerCase() + "%'";
+		String searchPatientQuery = "SELECT p FROM Patient p WHERE p.firstName LIKE '" + query.toLowerCase() + "%'";
 		return em.createQuery(searchPatientQuery, Patient.class).getResultList();
 	}
 

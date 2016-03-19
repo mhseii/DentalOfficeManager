@@ -1,9 +1,10 @@
 package br.com.dentalofficemanager.controller;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-import javax.validation.Valid;
-
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.dentalofficemanager.DAO.jdbc.JdbcPatientDao;
 import br.com.dentalofficemanager.DAO.jpa.PatientDao;
+import br.com.dentalofficemanager.DTO.PatientDTO;
+import br.com.dentalofficemanager.entity.Address;
 import br.com.dentalofficemanager.entity.Patient;
 
 @Transactional
@@ -22,18 +24,15 @@ import br.com.dentalofficemanager.entity.Patient;
 public class PatientController {
 	
 	@Autowired
-	PatientDao dao;
-	/*private JdbcPatientDao dao;
+	protected PatientDao dao;
+	protected static Logger log = Logger.getLogger(PatientController.class);
+//	private JdbcPatientDao dao;
 	
-	@Autowired
+/*	@Autowired
 	public PatientController(JdbcPatientDao dao) {
 		this.dao = dao;
-	}*/
-	
-	@RequestMapping(value = "patient_management", method = RequestMethod.GET)
-	public String managePatients() {
-		return "/patient/management";
 	}
+*/
 	
 	@RequestMapping(value = "register_patient", method = RequestMethod.GET)
 	public String registerPatient() {
@@ -41,9 +40,37 @@ public class PatientController {
 	}
 	
 	@RequestMapping(value = "patientRegistrationForm", method = RequestMethod.POST)
-	public String patientRegistrationForm(Patient patient) {
-		System.out.println(patient.toString());
+	public String patientRegistrationForm(PatientDTO patientDTO) {
+
+		Patient patient = new Patient();
+		patient.setFirstName(patientDTO.getFirstName());
+		patient.setLastName(patientDTO.getLastName());
+		// setting bday
+		Calendar bday = Calendar.getInstance();
+		bday.setTime(new Date(patientDTO.getBirthDate().getTimeInMillis()));
+		patient.setBirthDate(bday);
+		
+		patient.setCpf(patientDTO.getCpf());
+		patient.setPhoneNumber(patientDTO.getPhoneNumber());
+		patient.setCellPhoneNumber(patientDTO.getCellPhoneNumber());
+		patient.setEmail(patientDTO.getEmail());
+
+		// fill address object to be set on patient
+		Address address = new Address();
+		address.setStreet(patientDTO.getAddressStreet());
+		address.setAdditionalAddressInfo(patientDTO.getAddressAdditionalInfo());
+		address.setNumber(patientDTO.getAddressNumber());
+		address.setDistrict(patientDTO.getAddressDistrict());
+		address.setCity(patientDTO.getAddressCity());
+		address.setState(patientDTO.getAddressState());
+		address.setZipcode(patientDTO.getAddressZipCode());
+		patient.setAddress(address);
+		address.setPatient(patient);
+		
 		dao.addPatient(patient);
+		
+		log.debug("PatientDTO: " + patientDTO);
+		
 		return "redirect:list_patients";
 	}
 	
@@ -64,4 +91,5 @@ public class PatientController {
 		model.addAttribute("patient", dao.searchPatientId(id));
 		return "/patient/view_patient";
 	}
+	
 }

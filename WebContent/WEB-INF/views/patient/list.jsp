@@ -35,7 +35,6 @@
 							// what is shown in the text box
 							// and what is defined for 'select' handler
 							value : item,
-							
 						}
 					}));
 				});
@@ -49,11 +48,13 @@
 					$(this).val(ui.item.label);
 					window.location.href = 'view_patient?id=' + ui.item.value.id;
 					return false;
-				}
+				} 
 			}
 		});
 	})
+</script>
 
+<script type="text/javascript">
 	$(function() {
 		$("input[type=submit],a").button();
 	});
@@ -78,7 +79,6 @@
 				<th>Nome</th>
 				<th>Sobrenome</th>
 				<th>Data de Nascimento</th>
-				<th>CPF</th>
 				<th>Contato</th>
 			</tr>
 			<c:forEach items="${patients}" var="patients">
@@ -88,7 +88,6 @@
 					<td>${patients.lastName}</td>
 					<td><fmt:formatDate value="${patients.birthDate.time}"
 							pattern="dd/MM/yyy" /></td>
-					<td>${patients.cpf}</td>
 					<td>${patients.phoneNumber}</td>
 				</tr>
 			</c:forEach>

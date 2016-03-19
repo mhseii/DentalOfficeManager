@@ -30,23 +30,29 @@ $(function() {
 		<c:import url="/WEB-INF/views/navigation.jsp"></c:import>
 	</div>
 
-	<div id="content">
+	<div id="content2">
 	<h3>Paciente - ${patient.firstName} ${patient.lastName}</h3><br />
 	<fieldset>
 		<legend>Dados do Paciente</legend>
 		<br />
-		<label class="displayLabel" for="firstName">Nome:</label> ${patient.firstName}<br />
-		<label class="displayLabel" for="lastName">Sobrenome:</label> ${patient.lastName}<br />
-		<label class="displayLabel" for="birthdate">Nascimento:</label> <fmt:formatDate value="${patient.birthDate.time}" pattern="dd/MM/yyyy"/><br />
-		<label class="displayLabel" for="cpf">CPF:</label> ${patient.cpf}<br />
-		<label class="displayLabel" for="phoneNumber">Telefone:</label> ${patient.phoneNumber}<br />
-		<br /><br />
-		<legend>Endereço</legend>
+		<label class="noStyle" for="firstName">Nome:</label><span>${patient.firstName}</span><br />
+		<label class="noStyle" for="lastName">Sobrenome:</label><span>${patient.lastName}</span><br />
+		<label class="noStyle" for="birthdate">Nascimento:</label><span><fmt:formatDate value="${patient.birthDate.time}" pattern="dd/MM/yyyy"/></span><br />
+		<label class="noStyle" for="cpf">CPF:</label><span>${patient.cpf}</span><br />
 		<br />
-		<label class="displayLabel" for="addressStreet">Rua:</label> ${patient.addressStreet}
-		<label class="displayLabel" for="addressNumber">Número:</label> ${patient.addressNumber}<br />
-		<label class="displayLabel" for="addressDistrict">Bairro:</label> ${patient.addressDistrict}
-		<label class="displayLabel" for="addressPostalCode">CEP:</label> ${patient.addressPostalCode}<br />
+		<legend>Contatos</legend>
+		<label class="noStyle" for="phoneNumber">Telefone:</label><span>${patient.phoneNumber}</span><br />
+		<label class="noStyle" for="cellPhoneNumber">Celular:</label><span>${patient.cellPhoneNumber}</span><br />
+		<label class="noStyle" for="email">e-mail:</label><span>${patient.email}</span><br />
+		<br />
+		<legend>Endereço</legend>
+		<label class="noStyle" for="street">Rua:</label><span>${patient.address.street}</span><br />
+		<label class="noStyle" for="additionalAddressInfo">Complemento:</label><span>${patient.address.additionalAddressInfo}</span><br />
+		<label class="noStyle" for="number">Número:</label><span>${patient.address.number}</span><br />
+		<label class="noStyle" for="district">Bairro:</label><span>${patient.address.district}</span><br />
+		<label class="noStyle" for="district">Cidade:</label>${patient.address.city}</span><br />
+		<label class="noStyle" for="state">UF:</label><span>${patient.address.state}</span><br />
+		<label class="noStyle" for="zipcode">CEP:</label><span>${patient.address.zipcode}</span><br />
 	</fieldset>
 	</div>
 

@@ -1,5 +1,6 @@
 package br.com.dentalofficemanager.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -14,8 +15,9 @@ import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-public class Task {
+public class Task implements Serializable{
 
+	private static final long serialVersionUID = -8160290965749865121L;
 	@Id
 	@GeneratedValue
 	private Long id;

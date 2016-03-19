@@ -4,14 +4,23 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
 	<persistence-unit name="persistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
+
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+
 		<class>br.com.dentalofficemanager.entity.Task</class>
 		<class>br.com.dentalofficemanager.entity.Patient</class>
+		<class>br.com.dentalofficemanager.entity.Address</class>
+
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
-			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.connection.charSet" value="UTF-8" />
+			<property name="hibernate.show_sql" value="true" />
+<!-- 			uncomment the line below to create entities automatically -->
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="create" /> -->
+<!-- 			the line below to update entities automatically -->
+			<property name="hibernate.hbm2ddl.auto" value="update" />
 		</properties>
+		
 	</persistence-unit>
 </persistence>

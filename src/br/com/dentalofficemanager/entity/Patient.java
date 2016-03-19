@@ -1,22 +1,35 @@
 package br.com.dentalofficemanager.entity;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-public class Patient {
+@Table(name="patient", uniqueConstraints={@UniqueConstraint(columnNames="patient_id")})
+public class Patient implements Serializable{
 
-	@Id
-	@GeneratedValue
-	private long id;
+	private static final long serialVersionUID = -5838919615146544735L;
+	@Id @Column(name="patient_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long patientId;
 	@NotNull
 	private String firstName;
 	@NotNull
@@ -30,100 +43,105 @@ public class Patient {
 	@NotNull
 	private String phoneNumber;
 	@NotNull
-	private String addressStreet;
+	private String cellPhoneNumber;
 	@NotNull
-	private String addressNumber;
-	@NotNull
-	private String addressDistrict;
-	@NotNull
-	private String addressCity;
-	@NotNull
-	private String addressState;
+	private String email;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) // unidirectional relationship
+	@PrimaryKeyJoinColumn // join the primary table of an entity subclass in the JOINED mapping strategy to the primary table 
+	private Address address;
 	
-	private String addressPostalCode;
+	public Patient() {
+	}
 	
-	public long getId() {
-		return id;
+	public Patient(String firstName, String lastName, Calendar birthDate,
+			String cpf, String phoneNumber, String cellPhoneNumber, String email, Address address) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+		this.cpf = cpf;
+		this.phoneNumber = phoneNumber;
+		this.cellPhoneNumber = cellPhoneNumber;
+		this.email = email;
+		this.address = address;
 	}
-	public void setId(long id) {
-		this.id = id;
-	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public Calendar getBirthDate() {
 		return birthDate;
 	}
+
 	public void setBirthDate(Calendar birthDate) {
 		this.birthDate = birthDate;
 	}
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public String getAddressStreet() {
-		return addressStreet;
+
+	public String getCellPhoneNumber() {
+		return cellPhoneNumber;
 	}
-	public void setAddressStreet(String addressStreet) {
-		this.addressStreet = addressStreet;
+
+	public void setCellPhoneNumber(String cellPhoneNumber) {
+		this.cellPhoneNumber = cellPhoneNumber;
 	}
-	public String getAddressNumber() {
-		return addressNumber;
+
+	public String getEmail() {
+		return email;
 	}
-	public void setAddressNumber(String addressNumber){
-		this.addressNumber = addressNumber;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public String getAddressDistrict() {
-		return addressDistrict;
+
+	public Address getAddress() {
+		return address;
 	}
-	public void setAddressDistrict(String addressDistrict) {
-		this.addressDistrict = addressDistrict;
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
-	public String getAddressCity() {
-		return addressCity;
+
+	// hibernate demands the method to be called getId()
+	public long getId() {
+		return patientId;
 	}
-	public void setAddressCity(String addressCity) {
-		this.addressCity = addressCity;
-	}
-	public String getAddressState() {
-		return addressState;
-	}
-	public void setAddressState(String addressState) {
-		this.addressState = addressState;
-	}
-	public String getAddressPostalCode() {
-		return addressPostalCode;
-	}
-	public void setAddressPostalCode(String addressPostalCode) {
-		this.addressPostalCode = addressPostalCode;
-	}
-	
+
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", birthDate=" + birthDate.getTimeInMillis() + ", cpf=" + cpf
-				+ ", phoneNumber=" + phoneNumber + ", addressStreet="
-				+ addressStreet + ", addressNumber=" + addressNumber
-				+ ", addressDistrict=" + addressDistrict + ", addressCity="
-				+ addressCity + ", addressState=" + addressState
-				+ ", addressPostalCode=" + addressPostalCode + "]";
+		return "Patient [patientId=" + patientId + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", birthDate=" + birthDate
+				+ ", cpf=" + cpf + ", phoneNumber=" + phoneNumber
+				+ ", cellPhoneNumber=" + cellPhoneNumber + ", email=" + email
+				+ "]";
 	}
 	
 }

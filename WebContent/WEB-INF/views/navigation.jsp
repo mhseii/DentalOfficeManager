@@ -20,10 +20,9 @@
 <body>
 	<h1>Dental Office Manager</h1>
 	<ul id="nav">
-		<li><a href="home">Início</a></li>
-		<li><a href="patient_management">Gerenciar Pacientes</a></li>
-		<li><a href="registerTask">Registrar tarefa</a></li>
-		<li><a href="listTasks">Lista de tarefas</a></li>
+			<li><a href="home">Início</a></li>
+			<li><a href="list_patients">Pacientes</a></li>
+			<li><a href="register_patient">Registrar Pacientes</a></li>
 	</ul>
 </body>
 </html>
