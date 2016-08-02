@@ -1,5 +1,6 @@
-/* JQuery Ui Stuff */
+/* jquery ui stuff */
 .ui-datepicker {
+	
 }
 
 .ui-autocomplete-loading {
@@ -7,45 +8,35 @@
 		no-repeat;
 }
 
-/* input elements */
-input[type=reset], input[type=submit] {
-}
-
+/* inputs */
 input[type=text] {
 	min-width: 200px;
 }
 
-.formInput {
+input.formInput {
 	float: left;
 	position: relative;
 	display: block;
 	width: 300px;
 }
 
-/* label element */
+/* labels */
 label {
-	font-size: 125%;
 	font-weight: bold;
 	text-align: left;
-	float: left;
-}
-
-label.noStyle{
-	width: 200px;
 }
 
 label.form {
 	float: left;
 	position: relative;
 	display: block;
-	font-size: 130%;
 	font-weight: bolder;
 	text-align: left;
 	margin: 2.5px;
 	width: 180px;
 }
+
 label.search {
-	font-size: 125%;
 	font-weight: bold;
 	padding-right: 1px;
 }
@@ -60,13 +51,17 @@ div.sideBySide {
 }
 
 legend {
-	font-size: 150%;
-	font-weight:bold;
+	font-weight: bold;
 	color: #808080;
 }
 
 fieldset {
 	border: none;
+}
+
+button.navigation-button {
+	display: inline;
+	padding: 0;
 }
 
 ul#nav {
@@ -89,32 +84,29 @@ ul#nav li {
 }
 
 div.ui-widget {
-	font-size: 100%;
+	
 }
 
 div#footer {
 	position: relative;
 	padding-top: 30px;
-	font-size: 75%;
 }
 
 div#content {
 	padding-top: 30px;
-	font-size: 75%;
 }
 
 div#content2 {
-	display: inline-block;
 }
 
 div#navigation {
-	font-size: 75%;
 }
 
 h1 {
-	font-size: 36px;
 }
 
 body {
-	font-family: Calibri;
+	margin: auto;
+	width: 720px;
+	padding-top: 20px;
 }
