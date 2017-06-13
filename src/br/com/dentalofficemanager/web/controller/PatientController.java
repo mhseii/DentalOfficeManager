@@ -2,13 +2,14 @@ package br.com.dentalofficemanager.web.controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.dentalofficemanager.dao.jpa.PatientDao;
-import br.com.dentalofficemanager.domain.Address;
-import br.com.dentalofficemanager.domain.Patient;
+import br.com.dentalofficemanager.model.Address;
+import br.com.dentalofficemanager.model.Patient;
+import br.com.dentalofficemanager.service.PatientService;
 import br.com.dentalofficemanager.web.DTO.PatientDTO;
 
-@Transactional
 @Controller
 public class PatientController {
 
@@ -40,14 +41,11 @@ public class PatientController {
 
 	@Autowired
 	protected PatientDao dao;
+	
+	@Autowired
+	protected PatientService patientService; 
+	
 	private static Logger log = LoggerFactory.getLogger(PatientController.class);
-
-	// private JdbcPatientDao dao;
-	// Injection of Dao through Spring DI 
-	// @Autowired
-	// public PatientController(JdbcPatientDao dao) {
-	// 	this.dao = dao;
-	// }
 
 	@RequestMapping(value = URL_REGISTER_PATIENT, method = RequestMethod.GET)
 	public String registerPatient() {
@@ -55,24 +53,25 @@ public class PatientController {
 	}
 
 	@RequestMapping(value = PATIENT_REGISTRATION_FORM, method = RequestMethod.POST)
-	public String patientRegistrationForm(PatientDTO patientDTO) {
+	public String patientRegistrationForm(@RequestBody PatientDTO patientDTO) {
 		log.info("PatientDTO: " + patientDTO.toString());
 
 		Patient patient = new Patient();
 		patient.setFirstName(patientDTO.getFirstName());
 		patient.setLastName(patientDTO.getLastName());
-		// setting bday
 		Calendar bday = Calendar.getInstance();
 		bday.setTime(new Date(patientDTO.getBirthDate().getTimeInMillis()));
 		patient.setBirthDate(bday);
-
-		patient.setCpf(patientDTO.getCpf());
+		patient.setGender("MALE");
+		patient.setSsnId(patientDTO.getCpf());
 		patient.setPhoneNumber(patientDTO.getPhoneNumber());
 		patient.setCellPhoneNumber(patientDTO.getCellPhoneNumber());
 		patient.setEmail(patientDTO.getEmail());
 
-		// fill address object to be set on patient
+		Set<Address> addressSet = new HashSet<Address>();
+		
 		Address address = new Address();
+		address.setMainAddress(true);
 		address.setStreet(patientDTO.getAddressStreet());
 		address.setAdditionalAddressInfo(patientDTO.getAddressAdditionalInfo());
 		address.setNumber(patientDTO.getAddressNumber());
@@ -80,14 +79,13 @@ public class PatientController {
 		address.setCity(patientDTO.getAddressCity());
 		address.setState(patientDTO.getAddressState());
 		address.setZipcode(patientDTO.getAddressZipCode());
-		patient.setAddress(address);
+		address.setCountry("Brazil");
 		address.setPatient(patient);
+		addressSet.add(address);
+		patient.setAddress(addressSet);
+		patientService.register(patient);
 
-		dao.addPatient(patient);
-
-		// TODO: redirect to page which user list proceedings
-		// return "redirect:list_patients";
-		return "arrange";
+		return "redirect:list_patients";
 	}
 	
 	@RequestMapping(value = URL_ADDITIONAL_INFO, method = RequestMethod.GET)
@@ -98,31 +96,31 @@ public class PatientController {
 
 	@RequestMapping(value = URL_LIST_PATIENT, method = RequestMethod.GET)
 	public String listPatients(Model model) {
-		model.addAttribute("patients", dao.listPatient());
+		model.addAttribute("patients", dao.findAll());
 		return JSP_LIST_PATIENTS;
 	}
 
 	@RequestMapping(value = URL_SEARCH_PATIENT, method = RequestMethod.GET)
 	@ResponseBody
-	public List<Patient> searchPatientByFirstName(@RequestParam(value = "term") String query) {
-		List<Patient> matchingPatients = dao.searchPatientByFirstName(query);
-		return matchingPatients;
+	public List<Patient> searchPatient(@RequestParam(value = "term") String query) {
+		return dao.findPatientByFirstName(query);
 	}
 
 	@RequestMapping(value = URL_VIEW_PATIENT, method = RequestMethod.GET)
-	public String viewPatientInformation(Long id, Model model) {
-		model.addAttribute("patient", dao.viewPatientInformation(id));
+	public String viewPatientInformation(@RequestParam Long id, Model model) {
+		Patient p = dao.findPatientById(id);
+		model.addAttribute("patient", p);
 		return JSP_VIEW_PATIENT;
 	}
 
-	@RequestMapping(value = "select_patient", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "select_patient", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public String selectPatient(@RequestBody String patientName) {
+	public String selectPatient(@RequestParam String search) {
 
 		String responseMessage;
 
-		if (patientName != null) {
-			List<Patient> matchingPatients = dao.searchPatientByFirstName(patientName);
+		if (search != null && !search.isEmpty()) {
+			List<Patient> matchingPatients = dao.findPatientByFirstName(search);
 			StringBuffer jsonPatientList = new StringBuffer();
 			if (!matchingPatients.isEmpty()) {
 				jsonPatientList.append("\"patient\":[");
@@ -133,7 +131,7 @@ public class PatientController {
 				jsonPatientList.append("]");
 				responseMessage = "{\"success\":true," + jsonPatientList + "}";
 			} else {
-				responseMessage = "{\"success\":false,\"msg\":\"no patient with name " + patientName + " was found!\"}";
+				responseMessage = "{\"success\":false,\"msg\":\"no patient with name " + search + " was found!\"}";
 			}
 		} else {
 			responseMessage = "{\"success\":false,\"msg\":\"request param is null!\"}";

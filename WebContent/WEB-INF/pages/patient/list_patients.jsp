@@ -12,7 +12,7 @@
 <c:import url="/WEB-INF/pages/common/header.jsp" />
 
 <!-- page javascript  -->
-<script type="text/javascript" src="resources/js/list_patients.js"></script>
+<script src="resources/js/list-patients.js"></script>
 
 <title>Pacientes</title>
 </head>
@@ -21,28 +21,22 @@
 	<div id="navigation">
 		<c:import url="/WEB-INF/pages/common/navigation.jsp" />
 	</div>
+	
 	<div id="content">
-		<div class="ui-widget">
-			<label class="search" for="searchPatient">Pesquisar:</label><input
-				id="searchPatient" type="text" name="searchPatient" />
-		</div>
-		<br />
 		<table>
 			<tr>
-				<th>Registro #</th>
 				<th>Nome</th>
-				<th>Sobrenome</th>
+				<th>CPF/RG</th>
 				<th>Data de Nascimento</th>
 				<th>Contato</th>
 			</tr>
-			<c:forEach items="${patients}" var="patients">
-				<tr>
-					<td>${patients.id}</td>
-					<td>${patients.firstName}</td>
-					<td>${patients.lastName}</td>
-					<td><fmt:formatDate value="${patients.birthDate.time}"
+			<c:forEach items="${patients}" var="patient">
+				<tr id="${patient.id}" onclick="selectPatient(this);">
+					<td>${patient.firstName} ${patient.lastName}</td>
+					<td>${patient.ssnId}</td>
+					<td class="center" ><fmt:formatDate value="${patient.birthDate.time}"
 							pattern="dd/MM/yyy" /></td>
-					<td>${patients.phoneNumber}</td>
+					<td>${patient.phoneNumber} - ${patient.cellPhoneNumber}</td>
 				</tr>
 			</c:forEach>
 		</table>

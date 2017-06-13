@@ -1,44 +1,84 @@
-/* jquery ui stuff */
 .ui-datepicker {
-	
+	font-size: 75%;
 }
 
 .ui-autocomplete-loading {
-	background: white url("images/ui-anim_basic_16x16.gif") right center
-		no-repeat;
+	background: white url("jquery/images/ui-anim_basic_16x16.gif") right center no-repeat;
+}
+
+
+.error {
+	border: 1px solid #ff0000;
+}
+
+table {
+	border-bottom: 1px solid #ddd;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+ 	border-collapse: collapse;
+ 	border-spacing: 0;
+	table-layout: fixed;
+	width: 80%;
+}
+
+td, th {
+	font-family: Gill Sans,Arial,sans-serif;
+	font-size: 1em;
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px solid #ddd;
+}
+
+th {
+	padding: 10px;
+	background-color: white;
+}
+
+td {
+	padding-right: 5px;
+}
+
+tr:nth-child(odd) td {
+	background: #ffffff;
+}
+
+tr:nth-child(even) td {
+	background: #f0f0f0;
+}
+
+tr:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+tr:first-child:hover {
+	background-color: white;
+}
+
+label.signup-form-radio {
+	font-size: 1.1em;
+	vertical-align: middle;
+}
+
+input.signup-form-radio {
+	vertical-align: text-top;
 }
 
 /* inputs */
 input[type=text] {
-	min-width: 200px;
-}
-
-input.formInput {
-	float: left;
-	position: relative;
-	display: block;
-	width: 300px;
+	width: auto;
+	text-align: left;
+	text-indent: 1.5px;
+	vertical-align: middle;
 }
 
 /* labels */
 label {
 	font-weight: bold;
 	text-align: left;
-}
-
-label.form {
-	float: left;
-	position: relative;
-	display: block;
-	font-weight: bolder;
-	text-align: left;
-	margin: 2.5px;
-	width: 180px;
-}
-
-label.search {
-	font-weight: bold;
-	padding-right: 1px;
+	vertical-align: middle;
 }
 
 div#register {
@@ -57,11 +97,6 @@ legend {
 
 fieldset {
 	border: none;
-}
-
-button.navigation-button {
-	display: inline;
-	padding: 0;
 }
 
 ul#nav {
@@ -84,7 +119,8 @@ ul#nav li {
 }
 
 div.ui-widget {
-	
+	position: relative;
+	padding-top: 20px;
 }
 
 div#footer {
@@ -93,20 +129,15 @@ div#footer {
 }
 
 div#content {
-	padding-top: 30px;
-}
-
-div#content2 {
+	padding-top: 50px;
 }
 
 div#navigation {
 }
 
-h1 {
-}
-
 body {
 	margin: auto;
-	width: 720px;
-	padding-top: 20px;
+	width: auto;
+	padding: 50px;
+	padding-top: 10px;
 }

@@ -12,7 +12,7 @@
 <c:import url="/WEB-INF/pages/common/header.jsp" />
 
 <!-- page javascript  -->
-<script type="text/javascript" src="resources/js/register-patient.js"></script>
+<script src="resources/js/register-patient.js"></script>
 
 <title>Cadastro de Paciente</title>
 </head>
@@ -23,60 +23,96 @@
 	</div>
 	
 	<div id="content">
-		<div id="register" >
-				<form id="registrationForm" action="/DentalOfficeManager/patientRegistrationForm" method="post">
+		<div id="register" style="display:table; overflow: auto;">
+				<form id="registrationForm" action="/DentalOfficeManager/patientRegistrationForm" method="post" >
 				<form:errors path="patient.notNull"/>
 				<fieldset>
 					<legend>Paciente</legend>
-					<label class="form" for="firstName">Nome:</label>
-					<input class="formInput" name="firstName"/>
-					
-					<label class="form" for="lastName">Sobrenome:</label>
-					<input class="formInput" name="lastName"/>
-					
-					<label class="form" for="birthDate">Nascimento:</label> 
-					<input class="formInput" id="datepicker" type="text" name="birthDate" placeholder="dd/mm/yyyy" />
-					
-					<label class="form" for="cpf">CPF:</label> 
-					<input class="formInput" id="patient-ssn" name="cpf" placeholder="123.456.789-10"/>			
+					<div>
+						<label for="firstName">
+							Nome
+							<input name="firstName"/>
+						</label>
+						<label for="lastName">
+							Sobrenome
+							<input name="lastName"/>
+						</label> 
+						<p>
+							<span>Sexo:</span>
+							<label class="signup-form-radio"> 
+								masculino 
+								<input class="signup-form-radio" type="radio" name="gender" value="male"> 
+							</label> 
+							&nbsp; &nbsp;
+							<label class="signup-form-radio"> 
+								feminino
+								<input class="signup-form-radio" type="radio" name="gender" value="female"> 
+							</label>
+						</p>
+						<label for="birthDate">
+							Nascimento 
+							<input id="datepicker" type="text" name="birthDate" placeholder="dd/mm/yyyy" /> 
+						</label> 
+						<label for="cpf">
+							CPF 
+							<input id="patient-ssn" name="cpf"/> 
+						</label> 
+					</div>			
 				</fieldset>
 				<fieldset>
 					<legend>Contato</legend>
-					<label class="form" for="phoneNumber">Tel. Fixo:</label> 
-					<input class="formInput" type="text" name="phoneNumber" placeholder="(11) 1234-5678"/>
-					
-					<label class="form" for="cellPhoneNumber">Celular:</label> 
-					<input class="formInput" type="text" name="cellPhoneNumber" placeholder="(11) 1234-5678"/>
-					
-					<label class="form" for="email">e-mail:</label>
-					<input class="formInput" id="email" type="text" name="email" placeholder="teste@email.com.br"/>
+					<div>
+						<label for="phoneNumber">
+							Telefone Fixo
+							<input type="text" name="phoneNumber"/>
+						</label> 
+						<label for="cellPhoneNumber">
+							Celular
+							<input type="text" name="cellPhoneNumber"/>
+						</label> 
+						<label for="email">
+							e-mail
+							<input id="email" type="email" name="email" placeholder="teste@email.com.br"/>
+						</label>
+					</div>
 				</fieldset>
 				<fieldset>	
 					<legend>Endereço</legend>
-					<label class="form" for="addressStreet">Rua:</label> 
-					<input class="formInput" name="addressStreet"/>
-					
-					<label class="form" for="addressAdditionalInfo">Complemento:</label> 
-					<input class="formInput" name="addressAdditionalInfo"/>
-					
-					<label class="form" for="addressNumber">Número:</label> 
-					<input class="formInput" name="addressNumber"/>
-					
-					<label class="form" for="addressDistrict">Bairro:</label> 
-					<input class="formInput" name="addressDistrict"/>
-					
-					<label class="form" for="addressCity">Cidade:</label> 
-					<input class="formInput" name="addressCity"/>
-					
-					<label class="form" for="addressState">Estado:</label> 
-					<input class="formInput" name="addressState"/>
-					
-					<label class="form" for="addressZipCode">Cep:</label>
-					<input class="formInput" name="addressZipCode" placeholder="12345-000"/>
+					<div>
+						<p><label for="addressZipCode">
+							Cep
+							<input name="addressZipCode" placeholder="9999-999"/>
+						</label></p>
+						<label for="addressStreet">
+							Rua
+							<input name="addressStreet"/>
+						</label> 
+						<label for="addressAdditionalInfo">
+							Complemento
+							<input name="addressAdditionalInfo"/>
+						</label> 
+						<label for="addressNumber">
+							Número
+							<input name="addressNumber"/>
+						</label> 
+						<label for="addressDistrict">
+							Bairro
+							<input name="addressDistrict"/>
+						</label> 
+						<label for="addressCity">
+							Cidade
+							<input name="addressCity"/>
+						</label> 
+						<label class="form" for="addressState">
+							Estado 
+							<select id="address-state">
+							</select> 
+						</label>
+					</div>
 				</fieldset>
-				<p>
+				<div>
 	            	<input id="register" type="submit" value="registrar" />
-	        	</p>
+	        	</div>
 			</form>
 		</div>
 	</div>

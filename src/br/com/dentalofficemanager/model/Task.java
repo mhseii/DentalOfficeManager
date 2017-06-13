@@ -1,4 +1,4 @@
-package br.com.dentalofficemanager.domain;
+package br.com.dentalofficemanager.model;
 
 import java.io.Serializable;
 import java.util.Calendar;

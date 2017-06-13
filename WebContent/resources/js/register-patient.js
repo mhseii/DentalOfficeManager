@@ -1,59 +1,58 @@
 $(function(){
 	
-	$("#patient-ssn").keypress(function(key) {
-		//simply ignore input if it is not a digit
-		if (key.charCode < 48 || key.charCode > 57) {
+	$("#patient-ssn").keypress(function(e) {
+		
+		var $ssn = $(this);
+		var key = e.which || e.charCode || e.keyCode || 0;
+		
+		if (key !== 8 && key !== 9) {
+			if($ssn.val().length === 3 || $ssn.val().length === 7) {
+				$ssn.val($ssn.val() + '.');
+			} else if($ssn.val().length === 11) {
+				$ssn.val($ssn.val() + '-');
+			}
+		}
+
+		if (key < 48 || key > 57 || key == 8 || $ssn.val().length > 13) {
 			return false;
 		}
-	});
-	
-	$("#patient-ssn").on("blur", patientSsnValidator($(this).val()));
-	
-});
-
-function patientSsnValidator(ssn) {
-	
-    var firstSum = 0;
-	var	secondSum = 0;
-	var	firstDigit = 0; 
-	var secondDigit = 0; 
-	var cpfRegex = /[0-9]{11}/;
-	
-	var i;
+		
+	}).blur(function() {
+		
+		$(this).removeClass("error");
+		
+		var $ssn = $(this);
+		var regExp = /[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}/;
+		var firstSum = 0, secondSum = 0, calculatedSSN = $ssn.val().replace(/\D/g,'').substring(0,9);
+		
+		if($ssn.val().match(regExp)) {
+			for(var i=0, j=10; i < calculatedSSN.length; i++, j--) {
+				firstSum += calculatedSSN[i]*j;
+			}
+			firstSum = firstSum % 11;
+			if(firstSum === 0 || firstSum === 1) {
+				firstSum = 0;
+			} else {
+				firstSum = 11 - firstSum;
+			}
+			calculatedSSN += firstSum;
 			
-	var cpf = ssn;
-	
-	if(cpf != "") {
-		if (cpf.match(cpfRegex)) {
+			for(var i=0, j=11; i < calculatedSSN.length; i++, j--) {
+				secondSum += calculatedSSN[i]*j; 
+			}
 			
-				for(i=10;  i > 3; i--) {
-					firstSum = firstSum + parseInt(cpf.charAt(i)*i);
-					secondSum = secondSum + parseInt(cpf.charAt(i)*(i+1));
-				}
-				console.log(firstSum);
-				console.log(secondSum);
-				
-				firstDigit = calculateSsnDigit(firstSum);
-				console.log(firstDigit);
-				secondSum = secondSum + (firstDigit*2);
-				secondDigit = calculateSsnDigit(secondSum);
-				console.log(secondDigit);
-				
-				if (parseInt(cpf.charAt(9)) != firstDigit || parseInt(cpf.charAt(10)) != secondDigit){
-					console.log(cpf.charAt(9) + cpf.charAt(10) + "cpf invalido!");
-					return false;
-				}
-		} else {
-			console.log("cpf is in wrong format!");
+			secondSum = secondSum % 11;
+			if(secondSum === 0 || secondSum === 1) {
+				secondSum = 0;
+			} else {
+				secondSum = 11 - secondSum;
+			}
+			calculatedSSN += secondSum;
 		}
-	}
-}
+		
+		if($ssn.val().replace(/\D/g,'') != calculatedSSN) {
+			$(this).addClass("error");
+		}
+	});
 
-function calculateSsnDigit(sum) {
-	var remainder = sum % 11;
-	var digit = 11 - remainder;
-	if (digit > 9) {
-		digit = 0;
-	}
-	return digit;
-}
+});

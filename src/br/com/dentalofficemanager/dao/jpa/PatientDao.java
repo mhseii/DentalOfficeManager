@@ -2,13 +2,13 @@ package br.com.dentalofficemanager.dao.jpa;
 
 import java.util.List;
 
-import br.com.dentalofficemanager.domain.Patient;
+import br.com.dentalofficemanager.model.Patient;
 
 public interface PatientDao {
 
-	void addPatient(Patient patient);
+	Long addPatient(Patient patient);
 	void updatePatient(Patient patient);
-	List<Patient> listPatient();
-	List<Patient> searchPatientByFirstName(String query);
-	Patient viewPatientInformation(Long id);
+	List<Patient> findAll();
+	List<Patient> findPatientByFirstName(String query);
+	Patient findPatientById(Long id);
 }

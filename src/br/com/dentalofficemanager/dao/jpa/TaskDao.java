@@ -2,7 +2,7 @@ package br.com.dentalofficemanager.dao.jpa;
 
 import java.util.List;
 
-import br.com.dentalofficemanager.domain.Task;
+import br.com.dentalofficemanager.model.Task;
 
 public interface TaskDao {
 

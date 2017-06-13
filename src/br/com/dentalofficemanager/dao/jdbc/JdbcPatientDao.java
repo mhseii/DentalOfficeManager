@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.com.dentalofficemanager.domain.Patient;
+import br.com.dentalofficemanager.model.Patient;
 
 @Repository
 public class JdbcPatientDao {
@@ -44,7 +44,7 @@ public class JdbcPatientDao {
 			ps.setString(1, p.getFirstName());
 			ps.setString(2, p.getLastName());
 			ps.setDate(3, new Date(p.getBirthDate().getTimeInMillis()));
-			ps.setString(4, p.getCpf());
+			ps.setString(4, p.getSsnId());
 			ps.setString(5, p.getPhoneNumber());
 //			ps.setString(6, p.getAddressStreet());
 //			ps.setString(7, p.getAddressNumber());
@@ -142,7 +142,7 @@ public class JdbcPatientDao {
 		patient.setLastName(rs.getString("lastName"));
 		Date birthDate = rs.getDate("birthDate");
 		patient.setBirthDate(dateToCalendar(birthDate));
-		patient.setCpf(rs.getString("cpf"));
+		patient.setSsnId(rs.getString("ssn_id"));
 		patient.setPhoneNumber(rs.getString("phoneNumber"));
 //		patient.setAddressStreet(rs.getString("addressStreet"));
 //		patient.setAddressNumber(rs.getString("addressNumber"));

@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import br.com.dentalofficemanager.domain.Task;
+import br.com.dentalofficemanager.model.Task;
 
 @Repository
 public class JdbcTaskDao {

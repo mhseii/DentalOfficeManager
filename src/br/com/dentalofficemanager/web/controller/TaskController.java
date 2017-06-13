@@ -10,9 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.dentalofficemanager.dao.jdbc.JdbcTaskDao;
 import br.com.dentalofficemanager.dao.jpa.TaskDao;
-import br.com.dentalofficemanager.domain.Task;
+import br.com.dentalofficemanager.model.Task;
 
 @Transactional
 @Controller

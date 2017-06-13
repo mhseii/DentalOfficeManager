@@ -11,18 +11,17 @@ public class PatientValidation {
 	private static String CPF_PATTERN = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}";
 	private static String CPF_PATTERN_DIGIT_ONLY = "(\\.|-)";
 	
-	public static boolean patientSsnValidator(String ssn) {
+	public static boolean ssnValidator(String ssn) {
 		boolean valid = false;
-
 		if (ssn != null) {
 			if (ssn.matches(CPF_PATTERN)) {
 				String cpf = ssn.replaceAll(CPF_PATTERN_DIGIT_ONLY, "");
 				if (cpf.length() < 11) {
 					String.format(CPF_FORMAT_LPAD, ssn);
 				}
-				int firstDigit = digitCalculator(
+				int firstDigit = ssnDigitCalculator(
 						cpf.substring(CPF_BEGIN_MARK, CPF_END_MARK_FIRST), FIRST_DIGIT_MARK);
-				int secondDigit = digitCalculator(
+				int secondDigit = ssnDigitCalculator(
 						cpf.substring(CPF_BEGIN_MARK, CPF_END_MARK_FIRST)
 								.concat(Integer.toString(firstDigit))
 								.substring(CPF_BEGIN_MARK, CPF_END_MARK_SECOND),
@@ -36,16 +35,13 @@ public class PatientValidation {
 		return valid;
 	}
 
-	private static Integer digitCalculator(String cpf, Integer mark) {
-
+	private static Integer ssnDigitCalculator(String cpf, Integer mark) {
 		Integer digit = 0;
 		int mod = 11;
-
 		for (char c : cpf.toCharArray()) {
 			digit = digit + Integer.parseInt(String.valueOf(c)) * mark;
 			mark--;
 		}
-		
 		if(digit%mod > 1) {
 			digit = mod - digit%mod; 
 		} else {

@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import br.com.dentalofficemanager.dao.jpa.TaskDao;
-import br.com.dentalofficemanager.domain.Task;
+import br.com.dentalofficemanager.model.Task;
 
 @Repository
 public class TaskDaoImpl implements TaskDao{
