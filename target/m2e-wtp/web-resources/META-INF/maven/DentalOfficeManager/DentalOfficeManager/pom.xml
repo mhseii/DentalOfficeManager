@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/3.1.4" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/3.1.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/3.1.4 http://maven.apache.org/xsd/maven-3.1.4.xsd">
 	<modelVersion>3.1.4</modelVersion>
 	<groupId>DentalOfficeManager</groupId>
@@ -27,59 +26,83 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<properties>
+		<!-- <org.springframework>3.1.4.RELEASE</org.springframework> -->
+		<org.springframework>4.3.9.RELEASE</org.springframework>
+		<!-- <commons.logging>1.1.3</commons.logging> -->
+		<commons.logging>1.2</commons.logging>
+		<com.fasterxml.jackson>2.8.5</com.fasterxml.jackson>
+	</properties>
+
 	<dependencies>
 		<!-- SpringMVC Dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-expression</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>3.1.4.RELEASE</version>
+			<version>${org.springframework}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.1</version>
 		</dependency>
 
-		<!-- Logging -->		
+		<!-- Logging -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.3</version>
+			<version>${commons.logging}</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -119,7 +142,6 @@
 			<version>2.1</version>
 		</dependency>
 
-		<!-- BeanValidation JARs -->
 		<dependency>
 			<groupId>com.fasterxml</groupId>
 			<artifactId>classmate</artifactId>
@@ -141,7 +163,6 @@
 			<version>1.1.0.Final</version>
 		</dependency>
 
-		<!-- Spring IoC -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
@@ -157,13 +178,14 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+
 		<!-- Time/Date Conversion -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 			<version>2.7</version>
 		</dependency>
-		
+
 		<!-- JSON -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
@@ -180,13 +202,22 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.12</version>
 		</dependency>
-		
-		<!-- <dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${com.fasterxml.jackson}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.9.0.pr3</version>
-		</dependency> -->
-		
+			<version>${com.fasterxml.jackson}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${com.fasterxml.jackson}</version>
+		</dependency>
+
 		<!-- others -->
 		<dependency>
 			<groupId>antlr</groupId>
@@ -234,25 +265,10 @@
 			<version>1.0.0.Final</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>3.1.4.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>3.1.4.RELEASE</version>
-		</dependency>
-		<dependency>
 			<groupId>aopalliance</groupId>
 			<artifactId>aopalliance</artifactId>
 			<version>1.0</version>
 		</dependency>
-		<!-- spring aop dependency -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>3.1</version>
-		</dependency>
+		
 	</dependencies>
 </project>

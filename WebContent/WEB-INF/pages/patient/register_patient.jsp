@@ -12,7 +12,7 @@
 <c:import url="/WEB-INF/pages/common/header.jsp" />
 
 <!-- page javascript  -->
-<script src="resources/js/register-patient.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/register-patient.js"></script>
 
 <title>Cadastro de Paciente</title>
 </head>
@@ -24,90 +24,73 @@
 	
 	<div id="content">
 		<div id="register" style="display:table; overflow: auto;">
-				<form id="registrationForm" action="/DentalOfficeManager/patientRegistrationForm" method="post" >
-				<form:errors path="patient.notNull"/>
+				<form id="registration-form">
 				<fieldset>
 					<legend>Paciente</legend>
+					<hr/>
 					<div>
-						<label for="firstName">
-							Nome
-							<input name="firstName"/>
-						</label>
-						<label for="lastName">
-							Sobrenome
-							<input name="lastName"/>
-						</label> 
+							<input name="firstName" placeholder="Nome" >
+							<input name="lastName" 	placeholder="Sobrenome" >
+							<input name="dateOfBirth" placeholder="Data de nascimento" class="datepicker" >
 						<p>
-							<span>Sexo:</span>
 							<label class="signup-form-radio"> 
-								masculino 
+								<span>masculino</span> 
 								<input class="signup-form-radio" type="radio" name="gender" value="male"> 
 							</label> 
 							&nbsp; &nbsp;
 							<label class="signup-form-radio"> 
-								feminino
+								<span>feminino</span>
 								<input class="signup-form-radio" type="radio" name="gender" value="female"> 
 							</label>
 						</p>
-						<label for="birthDate">
-							Nascimento 
-							<input id="datepicker" type="text" name="birthDate" placeholder="dd/mm/yyyy" /> 
-						</label> 
-						<label for="cpf">
-							CPF 
-							<input id="patient-ssn" name="cpf"/> 
+						<p>
+							<label class="signup-form-radio">
+								<span>RG</span>
+								<input class="signup-form-radio" type="radio" name="ssnType" value="RG">
+							</label>
+							&nbsp; &nbsp;
+							<label class="signup-form-radio">
+								<span>CPF</span>
+								<input class="signup-form-radio" type="radio" name="ssnType" value="CPF">
+							</label>
+							&nbsp; &nbsp;
+							<label class="signup-form-radio">
+								<span>CNPJ</span>
+								<input class="signup-form-radio" type="radio" name="ssnType" value="CNPJ">
+							</label>
+						</p>
+						<label for="ssn">
+							<input name="ssn" id="patient-ssn" placeholder="n&#186; de identidade" > 
 						</label> 
 					</div>			
 				</fieldset>
 				<fieldset>
 					<legend>Contato</legend>
+					<hr/>
 					<div>
-						<label for="phoneNumber">
-							Telefone Fixo
-							<input type="text" name="phoneNumber"/>
-						</label> 
-						<label for="cellPhoneNumber">
-							Celular
-							<input type="text" name="cellPhoneNumber"/>
-						</label> 
-						<label for="email">
-							e-mail
-							<input id="email" type="email" name="email" placeholder="teste@email.com.br"/>
-						</label>
+							<input name="phoneNumber" id="phone-number"	placeholder="telefone"/>
+							<input name="mobileNumber" id="mobile-number" placeholder="celular"/>
+							<input name="email" id="email" type="email" placeholder="e-mail"/>
 					</div>
 				</fieldset>
 				<fieldset>	
 					<legend>Endereço</legend>
+					<hr/>
 					<div>
-						<p><label for="addressZipCode">
-							Cep
-							<input name="addressZipCode" placeholder="9999-999"/>
-						</label></p>
-						<label for="addressStreet">
-							Rua
-							<input name="addressStreet"/>
-						</label> 
-						<label for="addressAdditionalInfo">
-							Complemento
-							<input name="addressAdditionalInfo"/>
-						</label> 
-						<label for="addressNumber">
-							Número
-							<input name="addressNumber"/>
-						</label> 
-						<label for="addressDistrict">
-							Bairro
-							<input name="addressDistrict"/>
-						</label> 
-						<label for="addressCity">
-							Cidade
-							<input name="addressCity"/>
-						</label> 
-						<label class="form" for="addressState">
-							Estado 
-							<select id="address-state">
-							</select> 
-						</label>
+						<div>
+							<label for="addressZipCode">
+								<input name="addressZipCode" placeholder="cep">
+							</label>
+						</div>
+						<input name="addressStreet" 		placeholder="logradouro"/>
+						<input name="addressComplements" placeholder="complemento"/>
+						<input name="addressNumber" 		placeholder="n&#186;"/>
+						<input name="addressDistrict" 		placeholder="bairro"/>
+						<input name="addressCity" 			placeholder="cidade"/>
+						<select name="addressState" id="address-state" >
+							<option value="SP">SP</option>
+						</select> 
+						<input name="addressCountry" value="Brazil" type="hidden"/>
 					</div>
 				</fieldset>
 				<div>

@@ -12,12 +12,6 @@
 <!--  standard imports through out the app-->
 <c:import url="/WEB-INF/pages/common/header.jsp" />
 
-<script type="text/javascript">
-$(function() {
-	$("#content").accordion();
-});
-</script>
-
 </head>
 
 <body>
@@ -29,13 +23,13 @@ $(function() {
 		<h3>Paciente - ${patient.firstName} ${patient.lastName}</h3>
 		<div>
 			<div style="display: inline-block; width: 40%;">
-				<label for="firstName">Nome:</label> <span>${patient.firstName}	${patient.lastName}</span><br />
-				<label for="birthdate">Nascimento:</label><span><fmt:formatDate	value="${patient.birthDate.time}" pattern="dd/MM/yyyy" /></span><br />
-				<label for="cpf">CPF/RG:</label><span>${patient.ssnId}</span><br />
+				<label for="full-name">Nome:</label> <span>${patient.firstName}	${patient.lastName}</span><br />
+				<label for="date-of-birth">Nascimento:</label><span><fmt:formatDate	value="${patient.dateOfBirth.time}" pattern="dd/MM/yyyy" /></span><br />
+				<label for="ssn">CPF/RG:</label><span>${patient.ssnId}</span><br />
 			</div>
 			<div style="display: inline-block; width: 40%;">
-				<label for="phoneNumber">Telefone:</label><span>${patient.phoneNumber}</span><br />
-				<label for="cellPhoneNumber">Celular:</label><span>${patient.cellPhoneNumber}</span><br />
+				<label for="phone-number">Telefone:</label><span>${patient.phoneNumber}</span><br />
+				<label for="mobile-number">Celular:</label><span>${patient.mobileNumber}</span><br />
 				<label for="email">e-mail:</label><span>${patient.email}</span><br />
 			</div>
 		</div>
@@ -44,10 +38,10 @@ $(function() {
 			<c:forEach items="${patient.address}" var="address">
 				<div>
 					<div>
-						<span>${address.street}&nbsp;${address.additionalAddressInfo}&nbsp;${address.number}</span>
+						<span>${address.street}&nbsp;${address.complements}&nbsp;${address.number}</span>
 					</div>
 					<div>
-						<span>${address.zipcode}&nbsp;${address.district},&nbsp;${address.city}&#8211;${address.state}  </span>
+						<span>${address.district},&nbsp;${address.city}&nbsp;&#8211;&nbsp;${address.state},&nbsp;${address.zipcode}</span>
 					</div>
 					<div>
 						<span>${address.country}</span>

@@ -17,13 +17,13 @@
 	</head>
 	
 	<body>
-		<div id="location-selector" style="position: relative; float: right;">
+		<%-- <div id="location-selector" style="position: relative; float: right;">
 			<select id="language">
 			<c:forEach items="${countries}" var="country">
 				<option id="${country.abbr}" value="${country.countryId}">${country.name}</option>
 			</c:forEach>
 			</select>
-		</div>
+		</div> --%>
 	
 		<div id="navigation">
 			<c:import url="/WEB-INF/pages/common/navigation.jsp" />

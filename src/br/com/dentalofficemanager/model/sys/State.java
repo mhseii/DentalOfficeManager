@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,11 +14,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
-@Table(name = "state")
+@Table(name = "state", uniqueConstraints = {
+		@UniqueConstraint(columnNames = { "NAME", "ABBR" }) 
+})
 public class State implements Serializable {
 
 	private static final long serialVersionUID = 6097767291628191292L;
@@ -25,7 +29,9 @@ public class State implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long stateId;
+	@Column(name = "NAME")
 	private String name;
+	@Column(name = "ABBR")
 	private String abbr;
 	private String zipcodeStart;
 	private String zipcodeEnd;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "country")
+@Table(name = "country", uniqueConstraints = {
+		@UniqueConstraint(columnNames = {"NAME", "ABBR"})
+})
 public class Country implements Serializable {
 
 	private static final long serialVersionUID = 553051472231373208L;
@@ -21,7 +25,9 @@ public class Country implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long countryId;
+	@Column(name = "NAME")
 	private String name;
+	@Column(name = "ABBR")
 	private String abbr;
 	private String locale;
 	private String currencyCode;

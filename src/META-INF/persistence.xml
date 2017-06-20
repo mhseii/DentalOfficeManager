@@ -8,8 +8,9 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
 		<class>br.com.dentalofficemanager.model.Task</class>
-		<class>br.com.dentalofficemanager.model.Patient</class>
-		<class>br.com.dentalofficemanager.model.Address</class>
+		<class>br.com.dentalofficemanager.patient.model.Patient</class>
+		<class>br.com.dentalofficemanager.patient.model.Address</class>
+		<class>br.com.dentalofficemanager.patient.model.Anamnesis</class>
 		<class>br.com.dentalofficemanager.model.sys.Country</class>
 		<class>br.com.dentalofficemanager.model.sys.State</class>
 		<class>br.com.dentalofficemanager.model.sys.City</class>

@@ -12,38 +12,22 @@
 <c:import url="/WEB-INF/pages/common/header.jsp" />
 
 <!-- page javascript  -->
-<script src="${pageContext.request.contextPath}/resources/js/list-patients.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/register-patient.js"></script>
 
-<title>Pacientes</title>
+<title>Cadastro de Paciente</title>
 </head>
-
 <body>
 	<div id="navigation">
-		<c:import url="/WEB-INF/pages/common/navigation.jsp" />
+		<c:import url="/WEB-INF/pages/common/navigation.jsp" />	
 	</div>
 	
 	<div id="content">
-		<table>
-			<tr>
-				<th>Nome</th>
-				<th>CPF/RG</th>
-				<th>Data de Nascimento</th>
-				<th>Contato</th>
-			</tr>
-			<c:forEach items="${patients}" var="patient">
-				<tr id="${patient.id}" onclick="selectPatient(this);">
-					<td>${patient.firstName} ${patient.lastName}</td>
-					<td>${patient.ssnId}</td>
-					<td class="center" ><fmt:formatDate value="${patient.dateOfBirth.time}"
-							pattern="dd/MM/yyy" /></td>
-					<td>${patient.phoneNumber} <br /> ${patient.mobileNumber}</td>
-				</tr>
-			</c:forEach>
-		</table>
+		<h2>hello world</h2>
 	</div>
-
+	
 	<div id="footer">
 		<c:import url="/WEB-INF/pages/common/footer.jsp" />
 	</div>
+
 </body>
 </html>

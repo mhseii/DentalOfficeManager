@@ -2,10 +2,10 @@ function selectPatient(element) {
 	
 	$.ajax({
 		method: "GET",
-		url: "view_patient",
+		url: "view",
 		data: "id=" + element.id
 	}).done(function(data){
-		window.location.href = 'view_patient?id=' + element.id;
+		window.location.href = 'view?id=' + element.id;
 	});
 	
 };
