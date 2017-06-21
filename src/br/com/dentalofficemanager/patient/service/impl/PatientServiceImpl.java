@@ -28,7 +28,7 @@ public class PatientServiceImpl implements PatientService, PatientConstants {
 		boolean result = false;
 		boolean isValidSSN = PatientValidation.ssnValidator(p.getSsnId(), SocialSecurityTypeEnum.getEnumFromCode(p.getSsnType()));
 		boolean isAlreadyRegistered = patient.findPatientBySSN(p.getSsnId(), p.getSsnType()) == null ? false : true;
-		if(isAlreadyRegistered && isValidSSN) {
+		if(!isAlreadyRegistered && isValidSSN) {
 			Long patientId = patient.addPatient(p);
 			if(null != patientId) {
 				result = true;

@@ -7,5 +7,5 @@ import br.com.dentalofficemanager.model.sys.Country;
 public interface CommonService {
 
 	Set<Country> getCountries();
-	
+	Set<String> getStates(String country);
 }

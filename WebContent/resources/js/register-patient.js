@@ -1,8 +1,15 @@
 $(function(){
 	
-	$("input[name=firstName]").keypress(function(e){
-		var key = e.which || e.charCode || e.keyCode || 0;
-		console.log(key);
+	$.ajax({
+		method: "POST",
+		url: "/DentalOfficeManager/retrieveCountryStates",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+	}).done(function(data){
+		console.log(data);
+		$.each(data, function(i, value) {
+			$("#address-state").append($('<option>').text(value).attr('value', value));
+		});
 	});
 	
 	$("#phone-number").on('copy paste', preventCopyPaste);

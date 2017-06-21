@@ -7,5 +7,6 @@ import br.com.dentalofficemanager.model.sys.Country;
 public interface CommonDao {
 	
 	Set<Country> getCountries();
+	Set<String> getStates(String country);
 
 }
