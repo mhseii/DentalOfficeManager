@@ -1,12 +1,8 @@
 package br.com.dentalofficemanager.patient.web.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.PersistenceException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,19 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import br.com.dentalofficemanager.constants.SystemConstants;
+import br.com.dentalofficemanager.patient.constants.PatientConstants;
+import br.com.dentalofficemanager.patient.exceptions.InvalidSocialSecurityNumberException;
 import br.com.dentalofficemanager.patient.model.Address;
 import br.com.dentalofficemanager.patient.model.Patient;
 import br.com.dentalofficemanager.patient.model.PatientDTO;
-import br.com.dentalofficemanager.patient.model.enums.SocialSecurityTypeEnum;
 import br.com.dentalofficemanager.patient.service.PatientService;
 
 @Controller
-public class PatientController implements PatientConstants {
+public class PatientController implements SystemConstants, PatientConstants {
 
 	@Autowired
-	protected PatientService patientService; 
-	
-	private static Logger log = LoggerFactory.getLogger(PatientController.class);
+	protected PatientService patientService;
+
+	private static Logger LOG = LoggerFactory.getLogger(PatientController.class);
 
 	@RequestMapping(value = URL_REGISTER_PATIENT, method = RequestMethod.GET)
 	public String registerPatient() {
@@ -44,63 +42,57 @@ public class PatientController implements PatientConstants {
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public String patientRegistrationForm(@RequestBody PatientDTO patientDTO) throws ParseException {
-		log.info("PatientDTO: " + patientDTO.toString());
-
-		Patient patient = new Patient();
-		patient.setFirstName(patientDTO.getFirstName());
-		patient.setLastName(patientDTO.getLastName());
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Calendar bday = Calendar.getInstance();
-		bday.setTime(sdf.parse(patientDTO.getDateOfBirth()));
-		patient.setDateOfBirth(bday);
-		patient.setGender(patientDTO.getGender());
-		for(SocialSecurityTypeEnum ssnType : SocialSecurityTypeEnum.values()) {
-			if(ssnType.getName().equalsIgnoreCase(patientDTO.getSsnType())) {
-				patient.setSsnType(ssnType.getCode());
-				break;
-			}
-		}
-		patient.setSsnId(patientDTO.getSsn());
-		patient.setPhoneNumber(patientDTO.getPhoneNumber());
-		patient.setMobileNumber(patientDTO.getMobileNumber());
-		patient.setEmail(patientDTO.getEmail());
-
-		Set<Address> addressSet = new HashSet<Address>();
 		
-		Address address = new Address();
-		address.setMainAddress(true);
-		address.setStreet(patientDTO.getAddressStreet());
-		address.setComplements(patientDTO.getAddressComplements());
-		address.setNumber(patientDTO.getAddressNumber());
-		address.setDistrict(patientDTO.getAddressDistrict());
-		address.setCity(patientDTO.getAddressCity());
-		address.setState(patientDTO.getAddressState());
-		address.setZipcode(patientDTO.getAddressZipCode());
-		address.setCountry(patientDTO.getAddressCountry());
-		address.setPatient(patient);
-		addressSet.add(address);
-		patient.setAddress(addressSet);
-		
+		final String methodName = "patientRegistrationForm";
+		LOG.info(String.format("@%s METHOD START", methodName));
+		LOG.info("RequestBody: " + patientDTO.toString());
+
 		boolean success = false;
 		String redirectUrl = null;
 		String msg = null;
+		
 		try {
+			Patient patient = new Patient();
+			patient.setFirstName(patientDTO.getFirstName());
+			patient.setLastName(patientDTO.getLastName());
+			patient.setDateOfBirth(patientDTO.getDateOfBirth(), BR_DATE_FORMAT);
+			patient.setGender(patientDTO.getGender());
+			patient.setSsnType(patientDTO.getSsnType());
+			patient.setSsnId(patientDTO.getSsn(),patientDTO.getSsnType());
+			patient.setPhoneNumber(patientDTO.getPhoneNumber());
+			patient.setMobileNumber(patientDTO.getMobileNumber());
+			patient.setEmail(patientDTO.getEmail());
+	
+			Address address = new Address();
+			address.setMainAddress(true);
+			address.setStreet(patientDTO.getAddressStreet());
+			address.setComplements(patientDTO.getAddressComplements());
+			address.setNumber(patientDTO.getAddressNumber());
+			address.setDistrict(patientDTO.getAddressDistrict());
+			address.setCity(patientDTO.getAddressCity());
+			address.setState(patientDTO.getAddressState());
+			address.setZipcode(patientDTO.getAddressZipCode());
+			address.setCountry(patientDTO.getAddressCountry());
+			address.setPatient(patient);
+			
+			Set<Address> addressSet = new HashSet<Address>();
+			addressSet.add(address);
+			patient.setAddress(addressSet);
+			
 			success = patientService.register(patient);
 			if(success) {
 				redirectUrl = REDIRECT_URL_ANAMNESIS;
-				msg = "paciente registrado com sucesso!";
-			} else {
-				redirectUrl = REDIRECT_URL_LIST_PATIENT;
-				msg = "o número de cpf !";
+				msg = "paciente " + patientDTO.getFirstName() + " " + patientDTO.getLastName() + " registrado com sucesso!";
 			}
-		} catch (PersistenceException ex) {
+		} catch(InvalidSocialSecurityNumberException ex) {
 			success = false;
 			msg = ex.getMessage();
 		}
 
+		LOG.info(String.format("@%s METHOD END", methodName));
 		return ajaxResponseFormatter(success, redirectUrl, msg);
 	}
-	
+
 	@RequestMapping(value = URL_LIST_PATIENT, method = RequestMethod.GET)
 	public String listPatients(Model model) {
 		model.addAttribute("patients", patientService.getPatientSet());

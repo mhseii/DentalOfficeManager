@@ -1,6 +1,7 @@
 package br.com.dentalofficemanager.patient.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Set;
 
@@ -23,6 +24,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.dentalofficemanager.model.BaseEntity;
+import br.com.dentalofficemanager.patient.exceptions.InvalidSocialSecurityNumberException;
+import br.com.dentalofficemanager.patient.model.enums.SocialSecurityTypeEnum;
+import br.com.dentalofficemanager.patient.utils.DateFormatUtil;
+import br.com.dentalofficemanager.patient.utils.PatientValidationUtil;
 
 @Entity
 @Table(name = "PATIENT", uniqueConstraints = { 
@@ -124,9 +129,13 @@ public class Patient extends BaseEntity implements Serializable {
 	public Calendar getDateOfBirth() {
 		return dateOfBirth;
 	}
-
+	
 	public void setDateOfBirth(Calendar birthDate) {
 		this.dateOfBirth = birthDate;
+	}
+
+	public void setDateOfBirth(String birthDate, String dateFormat) throws ParseException {
+		setDateOfBirth(DateFormatUtil.formatDate(birthDate, dateFormat));
 	}
 
 	public String getSsnId() {
@@ -135,6 +144,11 @@ public class Patient extends BaseEntity implements Serializable {
 
 	public void setSsnId(String ssnId) {
 		this.ssnId = ssnId;
+	}
+	
+	public void setSsnId(String ssnId, String ssnType) throws InvalidSocialSecurityNumberException {
+		PatientValidationUtil.ssnValidator(ssnId, SocialSecurityTypeEnum.getEnumFromName(ssnType));
+		setSsnId(ssnId);
 	}
 
 	public String getGender() {
@@ -173,8 +187,13 @@ public class Patient extends BaseEntity implements Serializable {
 		return ssnType;
 	}
 
-	public void setSsnType(long ssnType) {
-		this.ssnType = ssnType;
+	public void setSsnType(String ssnType) {
+		for (SocialSecurityTypeEnum type : SocialSecurityTypeEnum.values()) {
+			if (type.getName().equalsIgnoreCase(ssnType)) {
+				this.ssnType = type.getCode();
+				break;
+			}
+		}
 	}
 
 

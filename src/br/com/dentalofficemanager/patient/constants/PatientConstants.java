@@ -1,4 +1,4 @@
-package br.com.dentalofficemanager.patient.web.controller;
+package br.com.dentalofficemanager.patient.constants;
 
 public interface PatientConstants {
 

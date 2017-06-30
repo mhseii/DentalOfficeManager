@@ -6,7 +6,8 @@
 <!-- JSTL  -->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <!--  standard imports through out the app-->
 <c:import url="/WEB-INF/pages/common/header.jsp" />
@@ -25,10 +26,10 @@
 	<div id="content">
 		<table>
 			<tr>
-				<th>Nome</th>
-				<th>CPF/RG</th>
-				<th>Data de Nascimento</th>
-				<th>Contato</th>
+				<th><spring:message code="firstName" /></th>
+				<th><spring:message code="document" /></th>
+				<th><spring:message code="dateOfBirth" /></th>
+				<th><spring:message code="contact" /></th>
 			</tr>
 			<c:forEach items="${patients}" var="patient">
 				<tr id="${patient.id}" onclick="selectPatient(this);">

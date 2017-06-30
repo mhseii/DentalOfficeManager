@@ -6,10 +6,17 @@ $(function(){
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 	}).done(function(data){
-		console.log(data);
 		$.each(data, function(i, value) {
 			$("#address-state").append($('<option>').text(value).attr('value', value));
 		});
+	});
+	
+	$("#registration-dialog").dialog({
+		autoOpen: false,
+		draggable: false,
+		modal: true,
+		show: "blind",
+		hide: "blind"
 	});
 	
 	$("#phone-number").on('copy paste', preventCopyPaste);
@@ -51,7 +58,11 @@ $(function(){
 			if(data.success) {
 				window.location.href = data.redirectURL;
 			} else {
-				alert("registration failed!");
+				$("#registration-dialog-msg").text(data.msg);
+				$("#registration-dialog").dialog({
+					title: "Error"
+				});
+				$("#registration-dialog").dialog("open");
 			}
 		});
 	});

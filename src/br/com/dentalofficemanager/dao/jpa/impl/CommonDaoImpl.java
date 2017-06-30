@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import br.com.dentalofficemanager.dao.jpa.CommonDao;
-import br.com.dentalofficemanager.model.sys.Country;
+import br.com.dentalofficemanager.model.address.Country;
 
 @Repository
 public class CommonDaoImpl implements CommonDao {

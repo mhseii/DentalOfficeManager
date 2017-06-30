@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.dentalofficemanager.dao.jpa.CommonDao;
-import br.com.dentalofficemanager.model.sys.Country;
+import br.com.dentalofficemanager.model.address.Country;
 import br.com.dentalofficemanager.service.CommonService;
 
 @Service

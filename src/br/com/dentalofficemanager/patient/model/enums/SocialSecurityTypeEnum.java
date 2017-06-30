@@ -29,4 +29,15 @@ public enum SocialSecurityTypeEnum {
 		}
 		return selected;
 	}
+	
+	public static SocialSecurityTypeEnum getEnumFromName(String name) {
+		SocialSecurityTypeEnum selected = SocialSecurityTypeEnum.CPF;
+		for (SocialSecurityTypeEnum type : SocialSecurityTypeEnum.values()) {
+			if (type.getName().equalsIgnoreCase(name)) {
+				selected = type;
+				break;
+			}
+		}
+		return selected;
+	}
 }

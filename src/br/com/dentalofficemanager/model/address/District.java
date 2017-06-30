@@ -1,4 +1,4 @@
-package br.com.dentalofficemanager.model.sys;
+package br.com.dentalofficemanager.model.address;
 
 import java.io.Serializable;
 

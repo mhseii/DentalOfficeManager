@@ -1,18 +1,20 @@
 package br.com.dentalofficemanager.patient.utils;
 
+import br.com.dentalofficemanager.patient.exceptions.InvalidSocialSecurityNumberException;
 import br.com.dentalofficemanager.patient.model.enums.SocialSecurityTypeEnum;
 
-public class PatientValidation {
+public class PatientValidationUtil {
 
 	private static int FIRST_DIGIT_MARK = 10;
 	private static int SECOND_DIGIT_MARK = 11;
 	private static int MOD_OP = 11; 
 	private static String CPF_PATTERN = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}";
 	private static String CNPJ_PATTERN = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}/[0-9]{4}-[0-9]{2}";
-	private static String RG_PATTERN = "[0-9]{2}\\\\.[0-9]{3}\\\\.[0-9]{3}-([0-9]{1}|x}";
+	private static String RG_PATTERN = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}-([0-9]{1}|x}";
 	private static String DIGIT_ONLY = "[^0-9]";
 	
-	public static boolean ssnValidator(String ssn, SocialSecurityTypeEnum ssnType) {
+	public static void ssnValidator(String ssn, SocialSecurityTypeEnum ssnType) 
+			throws InvalidSocialSecurityNumberException {
 		boolean isValid = false;
 		switch(ssnType) {
 			case CPF: isValid = cpfValidator(ssn);
@@ -22,7 +24,10 @@ public class PatientValidation {
 			case RG: isValid = rgValidator(ssn);
 				break;
 		}
-		return isValid;
+		
+		if(!isValid) {
+			throw new InvalidSocialSecurityNumberException("Patient social security id is invalid !");
+		}
 	}
 	
 	private static boolean rgValidator(String ssn) {

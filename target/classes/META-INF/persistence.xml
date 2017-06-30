@@ -11,10 +11,10 @@
 		<class>br.com.dentalofficemanager.patient.model.Patient</class>
 		<class>br.com.dentalofficemanager.patient.model.Address</class>
 		<class>br.com.dentalofficemanager.patient.model.Anamnesis</class>
-		<class>br.com.dentalofficemanager.model.sys.Country</class>
-		<class>br.com.dentalofficemanager.model.sys.State</class>
-		<class>br.com.dentalofficemanager.model.sys.City</class>
-		<class>br.com.dentalofficemanager.model.sys.District</class>
+		<class>br.com.dentalofficemanager.model.address.Country</class>
+		<class>br.com.dentalofficemanager.model.address.State</class>
+		<class>br.com.dentalofficemanager.model.address.City</class>
+		<class>br.com.dentalofficemanager.model.address.District</class>
 
 		<properties>
 			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />
