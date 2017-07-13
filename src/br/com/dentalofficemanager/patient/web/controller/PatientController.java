@@ -16,21 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.dentalofficemanager.constants.SystemConstants;
+import br.com.dentalofficemanager.common.constants.SystemConstants;
+import br.com.dentalofficemanager.common.exceptions.InvalidSocialSecurityNumberException;
 import br.com.dentalofficemanager.patient.constants.PatientConstants;
-import br.com.dentalofficemanager.patient.exceptions.InvalidSocialSecurityNumberException;
 import br.com.dentalofficemanager.patient.model.Address;
 import br.com.dentalofficemanager.patient.model.Patient;
-import br.com.dentalofficemanager.patient.model.PatientDTO;
+import br.com.dentalofficemanager.patient.model.DTO.PatientDTO;
 import br.com.dentalofficemanager.patient.service.PatientService;
 
 @Controller
 public class PatientController implements SystemConstants, PatientConstants {
 
+	private static final Logger logger = LoggerFactory.getLogger(PatientController.class);
+	
 	@Autowired
 	protected PatientService patientService;
-
-	private static Logger LOG = LoggerFactory.getLogger(PatientController.class);
 
 	@RequestMapping(value = URL_REGISTER_PATIENT, method = RequestMethod.GET)
 	public String registerPatient() {
@@ -44,8 +44,8 @@ public class PatientController implements SystemConstants, PatientConstants {
 	public String patientRegistrationForm(@RequestBody PatientDTO patientDTO) throws ParseException {
 		
 		final String methodName = "patientRegistrationForm";
-		LOG.info(String.format("@%s METHOD START", methodName));
-		LOG.info("RequestBody: " + patientDTO.toString());
+		logger.info(String.format("@%s METHOD START", methodName));
+		logger.info("RequestBody: " + patientDTO.toString());
 
 		boolean success = false;
 		String redirectUrl = null;
@@ -89,25 +89,28 @@ public class PatientController implements SystemConstants, PatientConstants {
 			msg = ex.getMessage();
 		}
 
-		LOG.info(String.format("@%s METHOD END", methodName));
+		logger.info(String.format("@%s METHOD END", methodName));
 		return ajaxResponseFormatter(success, redirectUrl, msg);
 	}
 
 	@RequestMapping(value = URL_LIST_PATIENT, method = RequestMethod.GET)
 	public String listPatients(Model model) {
-		model.addAttribute("patients", patientService.getPatientSet());
+		//TODO get patient list and pass as json through another controller
+		model.addAttribute("patients", patientService.findAllPatients());
 		return JSP_LIST_PATIENTS;
 	}
 
 	@RequestMapping(value = URL_SEARCH_PATIENT, method = RequestMethod.GET)
 	@ResponseBody
 	public Set<Patient> searchPatient(@RequestParam(value = "term") String query) {
-		return patientService.search(query);
+		Set<Patient> patients = patientService.findPatient(query);
+		logger.info(String.format("patients found with %s : %s", query, patients.toString()));
+		return patients; 
 	}
 
 	@RequestMapping(value = URL_VIEW_PATIENT, method = RequestMethod.GET)
 	public String viewPatientInformation(@RequestParam Long id, Model model) {
-		model.addAttribute("patient", patientService.getPatient(id));
+		model.addAttribute("patient", patientService.findById(id));
 		return JSP_VIEW_PATIENT;
 	}
 

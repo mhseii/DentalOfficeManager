@@ -7,14 +7,17 @@
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<class>br.com.dentalofficemanager.model.Task</class>
+		<class>br.com.dentalofficemanager.task.model.Task</class>
 		<class>br.com.dentalofficemanager.patient.model.Patient</class>
 		<class>br.com.dentalofficemanager.patient.model.Address</class>
 		<class>br.com.dentalofficemanager.patient.model.Anamnesis</class>
-		<class>br.com.dentalofficemanager.model.address.Country</class>
-		<class>br.com.dentalofficemanager.model.address.State</class>
-		<class>br.com.dentalofficemanager.model.address.City</class>
-		<class>br.com.dentalofficemanager.model.address.District</class>
+		<class>br.com.dentalofficemanager.common.model.address.Country</class>
+		<class>br.com.dentalofficemanager.common.model.address.State</class>
+		<class>br.com.dentalofficemanager.common.model.address.City</class>
+		<class>br.com.dentalofficemanager.common.model.address.District</class>
+		<class>br.com.dentalofficemanager.user.model.User</class>
+		<class>br.com.dentalofficemanager.user.model.UserGroup</class>
+		<class>br.com.dentalofficemanager.user.model.Role</class>
 
 		<properties>
 			<property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy" />

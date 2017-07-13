@@ -2,6 +2,7 @@ package br.com.dentalofficemanager.patient.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,7 @@ public class Address implements Serializable {
 	private static final long serialVersionUID = -2381570458534365590L;
 
 	@Id
-	@Column(name = "ADDRESS_ID")
+	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long addressId;
 	@NotNull
@@ -44,7 +45,7 @@ public class Address implements Serializable {
 	private String country;
 	private String complements;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "PATIENT_ID", nullable = false)
 	@JsonIgnore
 	private Patient patient;

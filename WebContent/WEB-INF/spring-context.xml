@@ -1,75 +1,15 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context" 
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
-		http://www.springframework.org/schema/mvc/spring-mvc.xsd
-		http://www.springframework.org/schema/beans
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
+		http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<context:component-scan base-package="br.com.dentalofficemanager" />
-	<mvc:annotation-driven />
-	<mvc:default-servlet-handler />
 
-	<!-- view resolver bean -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/pages/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-
-	<mvc:view-controller path="/" view-name="index" />
-	
-	<!-- internalization bean -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basename" value="/WEB-INF/i18n/messages" />
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean>
-
-	<!-- locale resolver bean -->
-	<bean id="localeResolver" 
-		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<property name="defaultLocale" value="pt" />
-		<property name="cookieName" value="usrLocale" />
-		<property name="cookieMaxAge" value="3600" />	
-	</bean>
-	
-	<!-- locale interceptor -->
-	<mvc:interceptors>
-		<bean id="localeInterceptor" 
-			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-			<property name="paramName" value="lang" />
-		</bean>
-	</mvc:interceptors>
-
-	<!-- datasource -->
-	<bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost/dentalofficemanager" />
-		<property name="username" value="root" />
-		<property name="password" value="admin123" />
-	</bean>
-
-	<!-- SpringMVC JPA Hibernate management -->
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="mysqlDataSource" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-		</property>
-	</bean>
-	
-	<!-- gerenciamento da transação pelo spring -->
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
-	
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<import resource="spring-mvc.xml"/>
+	<import resource="spring-data.xml"/>
+	<import resource="spring-security.xml"/>
 
 </beans>

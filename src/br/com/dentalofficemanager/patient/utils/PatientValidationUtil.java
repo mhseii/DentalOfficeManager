@@ -1,7 +1,7 @@
 package br.com.dentalofficemanager.patient.utils;
 
-import br.com.dentalofficemanager.patient.exceptions.InvalidSocialSecurityNumberException;
-import br.com.dentalofficemanager.patient.model.enums.SocialSecurityTypeEnum;
+import br.com.dentalofficemanager.common.exceptions.InvalidSocialSecurityNumberException;
+import br.com.dentalofficemanager.patient.model.SocialSecurityTypeEnum;
 
 public class PatientValidationUtil {
 
@@ -10,7 +10,7 @@ public class PatientValidationUtil {
 	private static int MOD_OP = 11; 
 	private static String CPF_PATTERN = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}";
 	private static String CNPJ_PATTERN = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}/[0-9]{4}-[0-9]{2}";
-	private static String RG_PATTERN = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}-([0-9]{1}|x}";
+	private static String RG_PATTERN = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{1}";
 	private static String DIGIT_ONLY = "[^0-9]";
 	
 	public static void ssnValidator(String ssn, SocialSecurityTypeEnum ssnType) 

@@ -7,8 +7,8 @@ import br.com.dentalofficemanager.patient.model.Patient;
 public interface PatientService {
 	
 	boolean register(Patient p);
-	Patient getPatient(Long id);
-	Set<Patient> search(String s);
-	Set<Patient> getPatientSet();
+	Patient findById(Long id);
+	Set<Patient> findPatient(String s);
+	Set<Patient> findAllPatients();
 
 }

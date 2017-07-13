@@ -23,10 +23,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.dentalofficemanager.model.BaseEntity;
-import br.com.dentalofficemanager.patient.exceptions.InvalidSocialSecurityNumberException;
-import br.com.dentalofficemanager.patient.model.enums.SocialSecurityTypeEnum;
-import br.com.dentalofficemanager.patient.utils.DateFormatUtil;
+import br.com.dentalofficemanager.common.exceptions.InvalidSocialSecurityNumberException;
+import br.com.dentalofficemanager.common.model.BaseEntity;
+import br.com.dentalofficemanager.common.utils.DateFormatUtil;
 import br.com.dentalofficemanager.patient.utils.PatientValidationUtil;
 
 @Entity
@@ -38,7 +37,7 @@ public class Patient extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -5838919615146544735L;
 
 	@Id
-	@Column(name = "PATIENT_ID")
+	@Column(name = "ID")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long patientId;
 	@NotNull
@@ -209,7 +208,7 @@ public class Patient extends BaseEntity implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Patient [patientId=").append(patientId).append(", firstName=").append(firstName)
-				.append(", lastName=").append(lastName).append(", dateOfBirth=").append(dateOfBirth)
+				.append(", lastName=").append(lastName).append(", dateOfBirth=").append(dateOfBirth != null ? dateOfBirth.getTime() : null)
 				.append(", ssnType=").append(ssnType).append(", ssnId=").append(ssnId).append(", gender=")
 				.append(gender).append(", phoneNumber=").append(phoneNumber).append(", mobileNumber=")
 				.append(mobileNumber).append(", email=").append(email).append("]");

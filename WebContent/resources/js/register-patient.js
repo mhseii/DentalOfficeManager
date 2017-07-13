@@ -59,9 +59,7 @@ $(function(){
 				window.location.href = data.redirectURL;
 			} else {
 				$("#registration-dialog-msg").text(data.msg);
-				$("#registration-dialog").dialog({
-					title: "Error"
-				});
+				$("#registration-dialog").dialog({	title: "Error"	});
 				$("#registration-dialog").dialog("open");
 			}
 		});
@@ -120,7 +118,7 @@ $(function(){
 				}
 			}
 			
-			if (!/8|4[8-9]|5[0-7]/g.test(key) || $ssn.val().length > 13) {
+			if (!/8|4[8-9]|5[0-7]/g.test(key) || ($ssn.val().length > 13 && key !== 8)) {
 				return false;
 			}
 		} else if(ssnType === "CNPJ"){
@@ -134,7 +132,7 @@ $(function(){
 				}
 			}
 			
-			if (!/8|4[8-9]|5[0-7]/g.test(key)|| $ssn.val().length > 17) {
+			if (!/8|4[8-9]|5[0-7]/g.test(key) || ($ssn.val().length > 17 && key !== 8)) {
 				return false;
 			}
 		} else {
@@ -146,7 +144,7 @@ $(function(){
 				}
 			}
 			
-			if (!/8|4[8-9]|5[0-7]|120/g.test(key) || $ssn.val().length > 11) {
+			if (!/8|4[8-9]|5[0-7]|120/g.test(key) || ($ssn.val().length > 11 && key !== 8)) {
 				return false;
 			}
 		}
@@ -281,7 +279,8 @@ $(function(){
 	
 	function preventNavigationKeys(e) {
 		var key = e.which || e.charCode || e.keyCode || 0;
-		if(key >= 35 && key <= 40) {
+		var regexp = /3[6-9]/g;
+		if(regexp.test(key)) {
 			return false;
 		}
 	};

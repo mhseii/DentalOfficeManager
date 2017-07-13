@@ -6,35 +6,8 @@
 	background: white url("jquery/images/ui-anim_basic_16x16.gif") right center no-repeat;
 }
 
-
 .error {
 	border: 1px solid #ff0000;
-}
-
-table {
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	border-bottom-left-radius: 4px;
-	border-bottom-right-radius: 4px;
-	table-layout: fixed;
-	width: 80%;
-}
-
-td, th {
-	font-family: Gill Sans,Arial,sans-serif;
-	font-size: 1em;
-	text-align: center;
-	vertical-align: middle;
-	border-bottom: 1px solid #ddd;
-}
-
-th {
-	padding: 10px;
-	background-color: white;
-}
-
-td {
-	padding-right: 5px;
 }
 
 tr:nth-child(odd) td {
@@ -54,19 +27,42 @@ tr:first-child:hover {
 	background-color: white;
 }
 
-label.signup-form-radio {
+td {
+	padding-right: 5px;
+}
+
+th {
+	padding: 10px;
+	background-color: white;
+}
+
+td, th {
+	font-family: Gill Sans,Arial,sans-serif;
+	font-size: 1em;
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px solid #ddd;
+}
+
+table {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	width: 100%;
+}
+
+label.register-form-radio {
 	font-size: 1.1em;
 	font-family: Gill Sans,Arial,sans-serif;
 	vertical-align: middle;
 }
 
-input.signup-form-radio {
+input.register-form-radio {
 	vertical-align: text-top;
 }
 
-/* inputs */
-input,
-select {
+input, select {
 	height: auto;
 	width: auto;
 	margin-top: 3px;
@@ -83,21 +79,11 @@ select {
 	vertical-align: middle;
 }
 
-/* labels */
 label {
 	font-family: Gill Sans,Arial,sans-serif;
 	font-weight: bold;
 	text-align: left;
 	vertical-align: middle;
-}
-
-div#register {
-	position: relative;
-	width: 500px;
-}
-
-div.sideBySide {
-	width: 450px;
 }
 
 legend {
@@ -113,7 +99,26 @@ fieldset {
 	font-weight: bold;
 }
 
-ul#nav {
+.search-box {
+	float: right;
+	height: inherit;
+	display: inline-block;
+	padding-left: 15px;
+}
+
+div.header {
+	display: inline-block; 
+	height: inherit;
+}
+
+ul.navigation-list li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style-type: none;
+}
+
+ul.navigation-list {
 	top: 50px;
 	left: 10px;
 	list-style: none;
@@ -125,11 +130,9 @@ ul#nav {
 	width: 400px;
 }
 
-ul#nav li {
-	margin: 0;
-	padding: 0;
-	display: inline;
-	list-style-type: none;
+div.navigation-items {
+	display: inline-block; 
+	height: inherit;
 }
 
 div.ui-widget {
@@ -137,19 +140,35 @@ div.ui-widget {
 	padding-top: 20px;
 }
 
-div#footer {
+div.footer {
 	position: relative;
-	padding-top: 30px;
+	padding-top: 20px;
 }
 
-div#content {
+div.navigation {
+	position: relative;
+	padding-top: 20px;
+}
+
+.register-form {
+	padding-top: 20px;
+}
+
+div.content{
+	width: 600px;
+	margin: auto;
+	position: relative;
 	padding-top: 50px;
 }
 
+form.login {
+	text-align: center;
+}
+
 body {
-	margin: auto;
-	width: auto;
-	padding: 50px;
-	padding-top: 10px;
+	margin: 0;
+	width: 100%; 
+	height: 100%; 
+	display: flex;
 	font-family: Gill Sans,Arial,sans-serif;
 }

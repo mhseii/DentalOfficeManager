@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.dentalofficemanager.patient.constants.PatientConstants;
-import br.com.dentalofficemanager.patient.jpa.PatientDao;
 import br.com.dentalofficemanager.patient.model.Patient;
+import br.com.dentalofficemanager.patient.repository.PatientDao;
 import br.com.dentalofficemanager.patient.service.PatientService;
 
 @Service
@@ -29,7 +29,7 @@ public class PatientServiceImpl implements PatientService, PatientConstants {
 		LOG.info(String.format("@ %s METHOD START", methodName));
 		
 		boolean result = false;
-		if(null != patient.addPatient(p)) {
+		if(null != patient.save(p)) {
 			result = true;
 		}
 	
@@ -41,13 +41,13 @@ public class PatientServiceImpl implements PatientService, PatientConstants {
 	
 	@Override
 	@Transactional
-	public Patient getPatient(Long id) {
+	public Patient findById(Long id) {
 		return patient.findPatientById(id);
 	}
 
 	@Override
 	@Transactional
-	public Set<Patient> search(String s) {
+	public Set<Patient> findPatient(String s) {
 		Set<Patient> firstNameSet = new HashSet<Patient>(patient.findPatientByFirstName(s));
 		Set<Patient> lastNameSet = new HashSet<Patient>(patient.findPatientByLastName(s));
 		
@@ -61,7 +61,7 @@ public class PatientServiceImpl implements PatientService, PatientConstants {
 
 	@Override
 	@Transactional
-	public Set<Patient> getPatientSet() {
+	public Set<Patient> findAllPatients() {
 		Set<Patient> patients = new HashSet<Patient>(patient.findAll());
 		return patients;
 	}

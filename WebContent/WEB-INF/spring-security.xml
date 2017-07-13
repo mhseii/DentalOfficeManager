@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<security:http pattern="/resources/**" security="none" />
+	<security:http pattern="/resources/js/**" security="none" />
+	<security:http pattern="/resources/css/**" security="none" />
+	<security:http pattern="/resources/jquery/**" security="none" />
+
+	<security:http auto-config="true" use-expressions="true">
+
+		<security:session-management>
+			<security:concurrency-control
+				max-sessions="1" error-if-maximum-exceeded="true" />
+		</security:session-management>
+
+		<security:intercept-url pattern="/login*"
+			access="permitAll" />
+		<security:intercept-url pattern="/sign_in*"
+			access="permitAll" />
+
+		<security:intercept-url pattern="/"
+			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/home*"
+			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/index*"
+			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/patient/**"
+			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/user/**"
+			access="hasRole('ROLE_ADMIN')" />
+
+		<security:form-login login-page="/DentalOfficeManager/login"
+			default-target-url="/home" always-use-default-target="true"
+			username-parameter="username" password-parameter="password" />
+	</security:http>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="userDetailsService">
+			<security:password-encoder ref="encoder"></security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<bean id="userDetailsService"
+		class="br.com.dentalofficemanager.user.service.impl.UserDetailsServiceImpl">
+	</bean>
+
+	<bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<constructor-arg name="strength" value="11" />
+	</bean>
+
+	<bean id="securityContextHolder"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetClass"
+			value="org.springframework.security.core.context.SecurityContextHolder" />
+		<property name="targetMethod" value="setStrategyName" />
+		<property name="arguments" value="MODE_GLOBAL" />
+	</bean>
+
+</beans>
