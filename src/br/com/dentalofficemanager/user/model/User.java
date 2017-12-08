@@ -5,16 +5,13 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,7 +27,6 @@ public class User extends BaseEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	private long acessLevel;
 	private String username;
 	private String password;
 	private String firstName;
@@ -42,16 +38,12 @@ public class User extends BaseEntity implements Serializable {
 	private String email;
 
 	@ManyToMany
-	@JoinTable(name = "user_role", 
-		joinColumns = @JoinColumn(name = "user_id"), 
-		inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonIgnore
 	private Set<Role> roles;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "GROUP_ID", nullable = true)
-	@JsonIgnore
-	private UserGroup userGroup;
+
+	public User() {
+	}
 
 	public long getId() {
 		return id;
@@ -59,14 +51,6 @@ public class User extends BaseEntity implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public long getAcessLevel() {
-		return acessLevel;
-	}
-
-	public void setAcessLevel(long acessLevel) {
-		this.acessLevel = acessLevel;
 	}
 
 	public String getUsername() {
@@ -112,7 +96,7 @@ public class User extends BaseEntity implements Serializable {
 	public void setDateOfBirth(String dateOfBirthString) throws ParseException {
 		this.setDateOfBirth(DateFormatUtil.formatDate(dateOfBirthString, SystemConstants.BR_DATE_FORMAT));
 	}
-	
+
 	public String getGender() {
 		return gender;
 	}
@@ -145,30 +129,22 @@ public class User extends BaseEntity implements Serializable {
 		this.email = email;
 	}
 
-	public UserGroup getUserGroup() {
-		return userGroup;
-	}
-	
-	public void setUserGroup(UserGroup userGroup) {
-		this.userGroup = userGroup;
-	}
-	
 	public Set<Role> getRoles() {
 		return roles;
 	}
-	
+
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=").append(id).append(", acessLevel=").append(acessLevel).append(", username=")
-				.append(username).append(", password=").append(password).append(", firstName=").append(firstName)
-				.append(", lastName=").append(lastName).append(", dateOfBirth=").append(dateOfBirth)
-				.append(", gender=").append(gender).append(", phoneNumber=").append(phoneNumber)
-				.append(", mobileNumber=").append(mobileNumber).append(", email=").append(email).append("]");
+		builder.append("User [id=").append(id).append(", username=").append(username).append(", password=")
+				.append(password).append(", firstName=").append(firstName).append(", lastName=").append(lastName)
+				.append(", dateOfBirth=").append(dateOfBirth).append(", gender=").append(gender)
+				.append(", phoneNumber=").append(phoneNumber).append(", mobileNumber=").append(mobileNumber)
+				.append(", email=").append(email).append("]");
 		return builder.toString();
 	}
 
@@ -176,7 +152,6 @@ public class User extends BaseEntity implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (acessLevel ^ (acessLevel >>> 32));
 		result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
@@ -199,8 +174,6 @@ public class User extends BaseEntity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (acessLevel != other.acessLevel)
-			return false;
 		if (dateOfBirth == null) {
 			if (other.dateOfBirth != null)
 				return false;
