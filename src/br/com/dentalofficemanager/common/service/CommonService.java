@@ -8,4 +8,5 @@ public interface CommonService {
 
 	Set<Country> getCountries();
 	Set<String> getStates(String country);
+	String getAddressData(String zipCode);
 }
