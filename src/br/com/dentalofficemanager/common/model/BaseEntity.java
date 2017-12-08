@@ -9,6 +9,9 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 @MappedSuperclass
 public abstract class BaseEntity {
 
@@ -57,11 +60,19 @@ public abstract class BaseEntity {
 
 	@PrePersist
 	public void onCreate() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth != null) {
+			this.createBy = auth.getName();  
+		}
 		this.createTs = Calendar.getInstance();
 	}
 
 	@PreUpdate
 	public void onUpdate() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth != null) {
+			this.updateBy = auth.getName();  
+		}
 		this.updatedTs = Calendar.getInstance();
 	}
 
