@@ -16,15 +16,18 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "city")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class City implements Serializable {
 
 	private static final long serialVersionUID = -760613314871126635L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long cityId;
+	private Long cityId;
 	private String name;
 	private String zipcodeStart;
 	private String zipcodeEnd;
@@ -35,16 +38,17 @@ public class City implements Serializable {
 	private State state;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "city")
+	@JsonIgnore
 	private Set<District> districts;
 
 	public City() {
 	}
 
-	public long getCityId() {
+	public Long getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(long cityId) {
+	public void setCityId(Long cityId) {
 		this.cityId = cityId;
 	}
 
@@ -79,6 +83,14 @@ public class City implements Serializable {
 	public void setState(State state) {
 		this.state = state;
 	}
+	
+	public Set<District> getDistricts() {
+		return districts;
+	}
+	
+	public void setDistricts(Set<District> districts) {
+		this.districts = districts;
+	}
 
 	@Override
 	public String toString() {
@@ -93,7 +105,9 @@ public class City implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (int) (cityId ^ (cityId >>> 32));
+		result = prime * result + ((districts == null) ? 0 : districts.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((zipcodeEnd == null) ? 0 : zipcodeEnd.hashCode());
 		result = prime * result + ((zipcodeStart == null) ? 0 : zipcodeStart.hashCode());
 		return result;
@@ -110,10 +124,20 @@ public class City implements Serializable {
 		City other = (City) obj;
 		if (cityId != other.cityId)
 			return false;
+		if (districts == null) {
+			if (other.districts != null)
+				return false;
+		} else if (!districts.equals(other.districts))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (state == null) {
+			if (other.state != null)
+				return false;
+		} else if (!state.equals(other.state))
 			return false;
 		if (zipcodeEnd == null) {
 			if (other.zipcodeEnd != null)
