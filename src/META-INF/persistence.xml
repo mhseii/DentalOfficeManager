@@ -15,8 +15,8 @@
 		<class>br.com.dentalofficemanager.common.model.address.State</class>
 		<class>br.com.dentalofficemanager.common.model.address.City</class>
 		<class>br.com.dentalofficemanager.common.model.address.District</class>
+		<class>br.com.dentalofficemanager.common.model.address.Street</class>
 		<class>br.com.dentalofficemanager.user.model.User</class>
-		<class>br.com.dentalofficemanager.user.model.UserGroup</class>
 		<class>br.com.dentalofficemanager.user.model.Role</class>
 
 		<properties>
