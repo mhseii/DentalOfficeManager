@@ -1,19 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
- <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
- 
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
+
+<div> <h1><spring:message code="navigation.title"/></h1> </div>
 <div>
-	<div class="header">
-		<h1><spring:message code="navigation.title"/></h1>
-	</div>
-	<div class="ui-widget search-box">
-		<input id="searchPatient" type="text" name="searchPatient" 
-			placeholder="<spring:message code="navigation.search"/>"/>
-		<label><span class="ui-icon-search ui-icon"></span></label>
-	</div>
-</div>
-<div>
-	<div class="navigation-items">
+	<div class="navigation">
 		<ul class="navigation-list">
 			<li>
 				<button class="navigation-button" id="home" 
@@ -33,6 +23,7 @@
 					<spring:message code="navigation.patientRegister" />
 				</button>
 			</li>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
 			<li>
 				<button class="navigation-button" id="list-users" 
 					onclick="javascript:changePage('${pageContext.request.contextPath}/user/list')">
@@ -45,6 +36,12 @@
 					<spring:message code="navigation.userRegister" />
 				</button>
 			</li>
+			</sec:authorize>
 		</ul>
+	</div>
+	<div class="navigation ui-widget search-box">
+		<input id="searchPatient" type="text" name="searchPatient" 
+			placeholder="<spring:message code="navigation.search"/>"/>
+		<label><span class="ui-icon-search ui-icon"></span></label>
 	</div>
 </div>

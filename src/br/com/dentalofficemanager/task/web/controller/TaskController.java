@@ -27,7 +27,7 @@ public class TaskController {
 	TaskDao dao;
 
 	//	Creates a new task
-	@RequestMapping(value = "registerTask", method = RequestMethod.GET)
+	@RequestMapping(value = "/task/register", method = RequestMethod.GET)
 	public String addTask() {
 		return "/task/register_task";
 	}

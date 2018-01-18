@@ -1,293 +1,202 @@
-$(function(){
+$(function () {
+	
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+	$(".autofill-enabled").attr("disabled", true);
 	
 	$.ajax({
-		method: "POST",
+		method: "GET",
 		url: "/DentalOfficeManager/retrieveCountryStates",
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
-	}).done(function(data){
-		$.each(data, function(i, value) {
-			$("#address-state").append($('<option>').text(value).attr('value', value));
-		});
-	});
-	
-	$("#registration-dialog").dialog({
-		autoOpen: false,
-		draggable: false,
-		modal: true,
-		show: "blind",
-		hide: "blind"
-	});
-	
-	$("#phone-number").on('copy paste', preventCopyPaste);
-	$("#phone-number").blur(validatePhoneNumber);
-	$("#phone-number").keydown(preventNavigationKeys);
-	$("#phone-number").keypress(formatPhoneNumber);
-	
-	$("#mobile-number").on('copy paste', preventCopyPaste);
-	$("#mobile-number").blur(validateMobileNumber);
-	$("#mobile-number").keydown(preventNavigationKeys);
-	$("#mobile-number").keypress(formatMobileNumber);
-	
-	$("#patient-ssn").attr("disabled", true);
-	$("input[type=radio][name=ssnType]").on("click", function() {
-		if($("input[type=radio][name=ssnType]:checked").length > 0){
-			$("#patient-ssn").removeAttr("disabled");
+		beforeSend: function (xhr) {
+			xhr.setRequestHeader(header, token);
 		}
+	}).done(function (data) {
+		$.each(data, function (i, value) {
+			$("#addressState").append($('<option>').text(value).attr('value', value));
+		});
 	});
 	
-	$("#patient-ssn").on('copy paste', preventCopyPaste);
-	$("#patient-ssn").blur(validateSSN);
-	$("#patient-ssn").keydown(preventNavigationKeys);
-	$("#patient-ssn").keypress(formatSSN);
-	
-	$("#registration-form").submit(function(e) {
-		e.preventDefault();
-		var form = $(this).serializeArray();
-		var jsonForm = {};
-		$(form).each(function(index, data) {
-			jsonForm[data.name] = data.value;
-		});
-		
+	$("#addressZipCode").blur(function() {
 		$.ajax({
-			type: "POST",
-			data: JSON.stringify(jsonForm),
+			method: "GET",
+			url: "/DentalOfficeManager/retrieveAddressData",
 			contentType: "application/json; charset=utf-8",
-			url: "registration_form",
-		}).done(function(data){
-			if(data.success) {
-				window.location.href = data.redirectURL;
-			} else {
-				$("#registration-dialog-msg").text(data.msg);
-				$("#registration-dialog").dialog({	title: "Error"	});
-				$("#registration-dialog").dialog("open");
+			dataType: "json",
+			data: 'zipCode=' + $(this).val(),
+			beforeSend: function (xhr) {
+				xhr.setRequestHeader(header, token);
+			}
+		}).done(function (data) {
+			if(data.state){
+				$('#addressState').val(data.state.abbreviation);
+				$('#addressState').attr("disabled", true);
+			}
+			
+			if(data.city){
+				$('#addressCity').val(data.city.name);
+				$('#addressCity').attr("disabled", true);
+			}
+			
+			if(data.district){
+				$('#addressDistrict').val(data.district.name);
+				$('#addressDistrict').attr("disabled", true);
 			}
 		});
 	});
 
+	$('.next').on('click', navigate2NextTab);
+	$('.previous').on('click', navigate2PreviousTab);
 	
-	function formatPhoneNumber(e) {
-		var $phoneNumber = $(this);
-		var key = e.which || e.charCode || e.keyCode || 0;
-		
-		if(key !== 8 && key !==9) {
-			if($phoneNumber.val().length === 0) {
-				$phoneNumber.val( $phoneNumber.val() + '(');
-			} else if($phoneNumber.val().length === 3) {
-				$phoneNumber.val( $phoneNumber.val() + ') ' );
-			} else if($phoneNumber.val().length === 9) {
-				$phoneNumber.val( $phoneNumber.val() + '-' );
-			}
-		}
-			
-		if (!/8|4[8-9]|5[0-7]/g.test(key) || $phoneNumber.val().length > 13) {
-			return false;
-		}
-	};
-	
-	function formatMobileNumber(e) {
-		var $mobileNumber = $(this);
-		var key = e.which || e.charCode || e.keyCode || 0;
-		
-		if(key !== 8 && key !==9) {
-			if($mobileNumber.val().length === 0) {
-				$mobileNumber.val( $mobileNumber.val() + '(');
-			} else if($mobileNumber.val().length === 3) {
-				$mobileNumber.val( $mobileNumber.val() + ') ' );
-			} else if($mobileNumber.val().length === 6 || $mobileNumber.val().length === 11) {
-				$mobileNumber.val( $mobileNumber.val() + '-' );
-			}
-		}
-		
-		if (!/8|4[8-9]|5[0-7]/g.test(key) || $mobileNumber.val().length >= 16) {
-			return false;
-		}
-	};
-	
-	function formatSSN(e) {
-		var $ssn = $(this);
-		var ssnType = $("input[type=radio][name=ssnType]:checked")[0].value;
-		var key = e.which || e.charCode || e.keyCode || 0;
-		
-		if(ssnType === "CPF"){
-			if (key !== 8 && key !== 9) {
-				if($ssn.val().length === 3 || $ssn.val().length === 7) {
-					$ssn.val($ssn.val() + '.');
-				} else if($ssn.val().length === 11) {
-					$ssn.val($ssn.val() + '-');
-				}
-			}
-			
-			if (!/8|4[8-9]|5[0-7]/g.test(key) || ($ssn.val().length > 13 && key !== 8)) {
-				return false;
-			}
-		} else if(ssnType === "CNPJ"){
-			if (key !== 8 && key !== 9) {
-				if($ssn.val().length === 2 || $ssn.val().length === 6) {
-					$ssn.val($ssn.val() + '.');
-				} else if($ssn.val().length === 10) {
-					$ssn.val($ssn.val() + '/');
-				} else if($ssn.val().length === 15) {
-					$ssn.val($ssn.val() + '-');
-				}
-			}
-			
-			if (!/8|4[8-9]|5[0-7]/g.test(key) || ($ssn.val().length > 17 && key !== 8)) {
-				return false;
-			}
-		} else {
-			if (key !== 8 && key !== 9) {
-				if($ssn.val().length === 2 || $ssn.val().length === 6) {
-					$ssn.val($ssn.val() + '.');
-				} else if($ssn.val().length === 10) {
-					$ssn.val($ssn.val() + '-');
-				}
-			}
-			
-			if (!/8|4[8-9]|5[0-7]|120/g.test(key) || ($ssn.val().length > 11 && key !== 8)) {
-				return false;
-			}
-		}
-		
-	};
-	
-	function validatePhoneNumber() {
-		$(this).removeClass("error");
-		
-		var $phoneNumber = $(this);
-		var regexp = /\([0-9]{2}\)\s[0-9]{4}-[0-9]{4}/g;
-		if( $phoneNumber.val().match(regexp) === null || $phoneNumber.val().match(regexp)[0] !== $phoneNumber.val()) {
-			$(this).addClass("error");
-		}
-	};
-	
-	function validateMobileNumber() {
-		$(this).removeClass("error");
-		
-		var $phoneNumber = $(this);
-		var regexp = /\([0-9]{2}\)\s([0-9]{1}-[0-9]{4}|[0-9]{4})-([0-9]{4})/g;
+	$("#registration-form").submit(function (e) {
+		e.preventDefault();
+		if ($(".error").length === 0) {
+			var form = $(this).serializeArray();
+			var jsonForm = {};
+			$(form).each(function (index, data) {
+				jsonForm[data.name] = data.value;
+			});
 
-		if($phoneNumber.val().length > 14) {
-			if($phoneNumber.val().replace(/[^0-9]/g,'').length === 10) {
-				$phoneNumber.val($phoneNumber.val().replace(/-/g,'').substring(0,9) 
-						+ '-' + $phoneNumber.val().replace(/-/g,'').substring(9));
-			} else {
-				$phoneNumber.val($phoneNumber.val().replace(/-/g,'').substring(0,6) 
-						+ '-' + $phoneNumber.val().replace(/-/g,'').substring(6, 10) 
-						+ '-' + $phoneNumber.val().replace(/-/g,'').substring(10));
-			}
-		} 
-		
-		if($phoneNumber.val().match(regexp) === null || $phoneNumber.val().match(regexp)[0] !== $phoneNumber.val()) {
-			$(this).addClass("error");
-		}
-	};
-	
-	function validateSSN() {
-		$(this).removeClass("error");
-		var ssnType = $("input[type=radio][name=ssnType]:checked")[0].value;
-		var $ssn = $(this);
-		if(ssnType === "CPF"){
-			var regExp = /[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}/g;
-			var calculatedSSN = $ssn.val().replace(/\D/g,'').substring(0, $ssn.val().replace(/\D/g,'').length-2);
-			
-			if($ssn.val().match(regExp)) {
-				var multiple = 10;
-				calculatedSSN += getCPFDigits(multiple, calculatedSSN);
-				multiple = 11;
-				calculatedSSN += getCPFDigits(multiple, calculatedSSN);
-			}
-			
-			if($ssn.val().replace(/\D/g,'') !== calculatedSSN || $ssn.val().replace(/\D/g,'').length < 11) {
-				$(this).addClass("error");
-			}
-		} else if(ssnType === "CNPJ") {
-			var regExp = /[0-9]{2}.[0-9]{3}.[0-9]{3}\/[0-9]{4}-[0-9]{2}/g;
-			var calculatedSSN = $ssn.val().replace(/\D/g,'').substring(0, $ssn.val().replace(/\D/g,'').length-2);
-			
-			if($ssn.val().match(regExp)){
-				calculatedSSN += getCNPJDigits(calculatedSSN);
-				calculatedSSN += getCNPJDigits(calculatedSSN);
-			}
-			
-			if($ssn.val().replace(/\D/g,'') !== calculatedSSN || $ssn.val().replace(/\D/g,'').length < 14) {
-				$(this).addClass("error");
-			}
+			$.ajax({
+				type: "POST",
+				data: JSON.stringify(jsonForm),
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				contentType: "application/json; charset=utf-8",
+				url: "registration_form",
+			}).done(function (data) {
+				if (data.success) {
+					console.log(data);
+				} else {
+					$("#registration-dialog-msg").text(data.msg);
+					$("#registration-dialog").dialog({ title: "Error" });
+					$("#registration-dialog").dialog("open");
+				}
+			});
 		} else {
-			var regExp = /[0-9]{2}.[0-9]{3}.[0-9]{3}-([0-9]{1}|x)/g;
-			var calculatedSSN = $ssn.val().replace(/[^0-9]|^x/g,'').substring(0, $ssn.val().replace(/[^0-9]|^x/g,'').length-1);
-			
-			if($ssn.val().match(regExp)) {
-				calculatedSSN += getRGDigits(calculatedSSN);
-			}
-			
-			if($ssn.val().replace(/[^0-9]|^x/g,'') !== calculatedSSN || $ssn.val().replace(/[^0-9]|^x/g,'').length < 9) {
-				$(this).addClass("error");
-			}
+			alert("the registration form you're trying to submit contains error!");
 		}
-	};
-	
-	function getCPFDigits(multiple, calculatedSSN) {
-		
-		var digit = 0;
-		for(var i=0, j=multiple; i < calculatedSSN.length; i++, j--) {
-			digit += calculatedSSN[i]*j;
-		}
-		digit = digit % 11;
-		if(digit === 0 || digit === 1) {
-			digit = 0;
-		} else {
-			digit = 11 - digit;
-		}
-		calculatedSSN += digit;
-	
-		return digit;
-	};
-	
-	function getCNPJDigits(calculatedSSN) {
-		var digit = 0;
-		var mult = 2;
-		for(var i=0; i < calculatedSSN.length; i++) {
-			if(mult > 9){
-				mult = 2;
-			}
-			digit += calculatedSSN.substring(calculatedSSN.length - ( i + 1), calculatedSSN.length - i) * mult;
-			mult++;
-		}
-		
-		if(digit % 11 > 2) {
-			digit = 11 - (digit % 11);
-		} else {
-			digit = 0;
-		}
-		return digit;
-	};
-	
-	function getRGDigits(calculatedSSN) {
-		var digit = 0;
-		for(var i=0, j=1; i < calculatedSSN.length; i++, j++) {
-			digit += calculatedSSN.substring(i, j) * i;
-		}
-		
-		if(digit % 11 < 10) {
-			digit = 11 - (digit % 11);
-		} else if(digit % 11 === 10) {
-			digit = x;
-		}
-		return digit;
-	};
-	
-	function preventNavigationKeys(e) {
-		var key = e.which || e.charCode || e.keyCode || 0;
-		var regexp = /3[6-9]/g;
-		if(regexp.test(key)) {
-			return false;
-		}
-	};
-	
-	function preventCopyPaste(e) {
-		e.preventDefault(); 
-	    return false;
-	};
+	});
 
 });
+
+var current, next, previous;
+var left, opacity, scale;
+var isAnimating;
+var hasErrors, hasEmptyInputs, isPristine;
+
+function validateCurrentTabInputTexts(current){
+	current.find('input:text').each(function() {
+		if ($(this).val() === '') {
+			$(this).addClass('error');
+			hasEmptyInputs = true;
+		}
+	});
+}
+
+function validateCurrentTabRadioButtons(current){
+	var inputRadios = current.find('input[type=radio]');
+	inputRadios.each(function(){
+		var radioDiv = $(this).parent().parent();
+		var areAllRadiosUnchecked = radioDiv.find('input[type=radio]:checked').length === 0;
+		var hasErrorLabel = radioDiv.find('label#errlbl_'+radioDiv[0].id).length === 0;
+		
+		if(areAllRadiosUnchecked && hasErrorLabel){
+			$errorLabel = $('<label>', {id: 'errlbl_' + radioDiv[0].id});
+			$errorSpan = $('<span>', {text: 'choose an option!'});
+			$errorSpan.css({'color':'#ffffff','background-color':'#ff0000','border-radius':'2px', 'padding':'2px'});
+			$errorLabel.append($errorSpan);
+			radioDiv.append($errorLabel);
+		}
+	});
+}
+
+function navigate2NextTab() {
+	if (isAnimating) return false;
+	isAnimating = true;
+
+	current = $(this).parent().parent();
+	next = $(this).parent().parent().next();
+
+	validateCurrentTabInputTexts(current);
+	validateCurrentTabRadioButtons(current);
+
+	hasErrors = current.find('input:text').hasClass('error');
+	if (hasErrors) {
+		isAnimating = false;
+		return false;
+	}
+
+	//activate next step on progressbar using the index of next_fs
+	$("#progressbar li").eq($("fieldset").index(next)).addClass("active");
+
+	next.show();
+
+	current.animate({
+		opacity: 0
+	}, {
+			step: function (now, mx) {
+				scale = (1 - now) * 0.2;
+				left = (now * 50) + "%";
+				opacity = 1 - now;
+				current.css({
+					'transform': 'scale(' + scale + ')'
+				});
+				next.css({
+					'left': left,
+					'opacity': opacity
+				});
+			},
+			duration: 'fast',
+			specialEasing: {
+				width: "linear",
+				height: "easeOutBounce"
+			},
+			complete: function () {
+				current.hide();
+				isAnimating = false;
+			}
+		});
+}
+
+function navigate2PreviousTab (){
+	if (isAnimating) return false;
+	isAnimating = true;
+
+	current = $(this).parent().parent();
+	previous = $(this).parent().parent().prev();
+
+	//de-activate current step on progressbar
+	$("#progressbar li").eq($("fieldset").index(current)).removeClass("active");
+
+	previous.show();
+
+	current.animate({
+		opacity: 0
+	}, {
+			step: function (now, mx) {
+				scale = 0.8 + (1 - now) * 0.2;
+				left = ((1 - now) * 50) + "%";
+				opacity = 1 - now;
+				current.css({
+					'left': left
+				});
+				previous.css({
+					'transform': 'scale(' + scale + ')',
+					'opacity': opacity
+				});
+			},
+			duration: 'fast',
+			specialEasing: {
+				width: "linear",
+				height: "easeOutBounce"
+			},
+			complete: function () {
+				current.hide();
+				isAnimating = false;
+			}
+		});
+}

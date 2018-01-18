@@ -18,17 +18,18 @@ import javax.persistence.UniqueConstraint;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-@Table(name = "state", uniqueConstraints = {
-		@UniqueConstraint(columnNames = { "NAME", "ABBR" }) 
-})
+@Table(name = "state", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME", "ABBR" }) })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class State implements Serializable {
 
 	private static final long serialVersionUID = 6097767291628191292L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long stateId;
+	private Long stateId;
 	@Column(name = "NAME")
 	private String name;
 	@Column(name = "ABBR")
@@ -42,16 +43,17 @@ public class State implements Serializable {
 	private Country country;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "state")
+	@JsonIgnore
 	private Set<City> cities;
 
 	public State() {
 	}
 
-	public long getStateId() {
+	public Long getStateId() {
 		return stateId;
 	}
 
-	public void setStateId(long statesId) {
+	public void setStateId(Long statesId) {
 		this.stateId = statesId;
 	}
 
@@ -107,8 +109,7 @@ public class State implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("State [stateId=").append(stateId).append(", name=").append(name).append(", abbr=").append(abbr)
-				.append(", zipcodeStart=").append(zipcodeStart).append(", zipcodeEnd=").append(zipcodeEnd)
-				.append(", cities=").append(cities).append("]");
+				.append(", zipcodeStart=").append(zipcodeStart).append(", zipcodeEnd=").append(zipcodeEnd).append("]");
 		return builder.toString();
 	}
 
@@ -118,6 +119,7 @@ public class State implements Serializable {
 		int result = 1;
 		result = prime * result + ((abbr == null) ? 0 : abbr.hashCode());
 		result = prime * result + ((cities == null) ? 0 : cities.hashCode());
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + (int) (stateId ^ (stateId >>> 32));
 		result = prime * result + ((zipcodeEnd == null) ? 0 : zipcodeEnd.hashCode());
@@ -143,6 +145,11 @@ public class State implements Serializable {
 			if (other.cities != null)
 				return false;
 		} else if (!cities.equals(other.cities))
+			return false;
+		if (country == null) {
+			if (other.country != null)
+				return false;
+		} else if (!country.equals(other.country))
 			return false;
 		if (name == null) {
 			if (other.name != null)

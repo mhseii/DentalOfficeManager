@@ -23,10 +23,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.dentalofficemanager.common.exceptions.InvalidSocialSecurityNumberException;
 import br.com.dentalofficemanager.common.model.BaseEntity;
 import br.com.dentalofficemanager.common.utils.DateFormatUtil;
-import br.com.dentalofficemanager.patient.utils.PatientValidationUtil;
 
 @Entity
 @Table(name = "PATIENT", uniqueConstraints = { 
@@ -145,11 +143,6 @@ public class Patient extends BaseEntity implements Serializable {
 		this.ssnId = ssnId;
 	}
 	
-	public void setSsnId(String ssnId, String ssnType) throws InvalidSocialSecurityNumberException {
-		PatientValidationUtil.ssnValidator(ssnId, SocialSecurityTypeEnum.getEnumFromName(ssnType));
-		setSsnId(ssnId);
-	}
-
 	public String getGender() {
 		return gender;
 	}

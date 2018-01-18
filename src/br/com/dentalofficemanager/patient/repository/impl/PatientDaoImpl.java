@@ -3,7 +3,6 @@ package br.com.dentalofficemanager.patient.repository.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
@@ -46,16 +45,7 @@ public class PatientDaoImpl implements PatientDao {
 		TypedQuery<Patient> query = em.createQuery("SELECT p FROM Patient p WHERE p.ssnId = :ssnId and p.ssnType = :ssnType", Patient.class);
 		query.setParameter("ssnId", ssn);
 		query.setParameter("ssnType", ssnType);
-		
-		Patient p = null;
-		try {
-			p = query.getSingleResult();
-		} catch(PersistenceException ex) {
-			if(ex instanceof NoResultException) {
-				return p;
-			}
-		}
-		return p;
+		return query.getSingleResult();
 	}
 	
 	@Override

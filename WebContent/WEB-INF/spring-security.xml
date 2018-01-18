@@ -18,6 +18,8 @@
 				max-sessions="1" error-if-maximum-exceeded="true" />
 		</security:session-management>
 
+		<security:intercept-url pattern="/resources/**"
+			access="permitAll" />
 		<security:intercept-url pattern="/login*"
 			access="permitAll" />
 		<security:intercept-url pattern="/sign_in*"
@@ -31,10 +33,12 @@
 			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
 		<security:intercept-url pattern="/patient/**"
 			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/task/**"
+			access="hasAnyRole('ROLE_ASSISTANT','ROLE_DENTIST','ROLE_MANAGER','ROLE_ADMIN')" />
 		<security:intercept-url pattern="/user/**"
 			access="hasRole('ROLE_ADMIN')" />
 
-		<security:form-login login-page="/DentalOfficeManager/login"
+		<security:form-login login-page="/login"
 			default-target-url="/home" always-use-default-target="true"
 			username-parameter="username" password-parameter="password" />
 	</security:http>
@@ -55,12 +59,12 @@
 		<constructor-arg name="strength" value="11" />
 	</bean>
 
-	<bean id="securityContextHolder"
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetClass"
-			value="org.springframework.security.core.context.SecurityContextHolder" />
-		<property name="targetMethod" value="setStrategyName" />
-		<property name="arguments" value="MODE_GLOBAL" />
-	</bean>
+<!-- 	<bean id="securityContextHolder" -->
+<!-- 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"> -->
+<!-- 		<property name="targetClass" -->
+<!-- 			value="org.springframework.security.core.context.SecurityContextHolder" /> -->
+<!-- 		<property name="targetMethod" value="setStrategyName" /> -->
+<!-- 		<property name="arguments" value="MODE_GLOBAL" /> -->
+<!-- 	</bean> -->
 
 </beans>

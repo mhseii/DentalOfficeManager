@@ -6,15 +6,17 @@ public class PatientDTO implements Serializable {
 
 	private static final long serialVersionUID = 8977910142425749151L;
 
+	private String patientId;
 	private String firstName;
 	private String lastName;
 	private String dateOfBirth;
 	private String gender;
 	private String ssnType;
-	private String ssn;
+	private String ssnId;
 	private String phoneNumber;
 	private String mobileNumber;
 	private String email;
+	private String addressId;
 	private String addressStreet;
 	private String addressComplements;
 	private String addressNumber;
@@ -23,6 +25,14 @@ public class PatientDTO implements Serializable {
 	private String addressState;
 	private String addressZipCode;
 	private String addressCountry;
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -64,12 +74,12 @@ public class PatientDTO implements Serializable {
 		this.ssnType = ssnType;
 	}
 
-	public String getSsn() {
-		return ssn;
+	public String getSsnId() {
+		return ssnId;
 	}
 
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
+	public void setSsnId(String ssnId) {
+		this.ssnId = ssnId;
 	}
 
 	public String getPhoneNumber() {
@@ -94,6 +104,14 @@ public class PatientDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
 	}
 
 	public String getAddressStreet() {
@@ -163,15 +181,16 @@ public class PatientDTO implements Serializable {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("PatientDTO [firstName=").append(firstName).append(", lastName=").append(lastName)
-				.append(", dateOfBirth=").append(dateOfBirth).append(", gender=").append(gender).append(", ssnType=")
-				.append(ssnType).append(", ssn=").append(ssn).append(", phoneNumber=").append(phoneNumber)
-				.append(", mobileNumber=").append(mobileNumber).append(", email=").append(email)
-				.append(", addressStreet=").append(addressStreet).append(", addressComplements=")
-				.append(addressComplements).append(", addressNumber=").append(addressNumber)
-				.append(", addressDistrict=").append(addressDistrict).append(", addressCity=").append(addressCity)
-				.append(", addressState=").append(addressState).append(", addressZipCode=").append(addressZipCode)
-				.append(", addressCountry=").append(addressCountry).append("]");
+		builder.append("PatientDTO [patientId=").append(patientId).append(", firstName=").append(firstName)
+				.append(", lastName=").append(lastName).append(", dateOfBirth=").append(dateOfBirth).append(", gender=")
+				.append(gender).append(", ssnType=").append(ssnType).append(", ssnId=").append(ssnId)
+				.append(", phoneNumber=").append(phoneNumber).append(", mobileNumber=").append(mobileNumber)
+				.append(", email=").append(email).append(", addressId=").append(addressId).append(", addressStreet=")
+				.append(addressStreet).append(", addressComplements=").append(addressComplements)
+				.append(", addressNumber=").append(addressNumber).append(", addressDistrict=").append(addressDistrict)
+				.append(", addressCity=").append(addressCity).append(", addressState=").append(addressState)
+				.append(", addressZipCode=").append(addressZipCode).append(", addressCountry=").append(addressCountry)
+				.append("]");
 		return builder.toString();
 	}
 

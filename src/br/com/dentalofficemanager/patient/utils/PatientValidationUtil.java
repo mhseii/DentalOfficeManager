@@ -1,6 +1,5 @@
 package br.com.dentalofficemanager.patient.utils;
 
-import br.com.dentalofficemanager.common.exceptions.InvalidSocialSecurityNumberException;
 import br.com.dentalofficemanager.patient.model.SocialSecurityTypeEnum;
 
 public class PatientValidationUtil {
@@ -13,8 +12,7 @@ public class PatientValidationUtil {
 	private static String RG_PATTERN = "[0-9]{2}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{1}";
 	private static String DIGIT_ONLY = "[^0-9]";
 	
-	public static void ssnValidator(String ssn, SocialSecurityTypeEnum ssnType) 
-			throws InvalidSocialSecurityNumberException {
+	public static boolean ssnValidator(String ssn, SocialSecurityTypeEnum ssnType) {
 		boolean isValid = false;
 		switch(ssnType) {
 			case CPF: isValid = cpfValidator(ssn);
@@ -25,9 +23,7 @@ public class PatientValidationUtil {
 				break;
 		}
 		
-		if(!isValid) {
-			throw new InvalidSocialSecurityNumberException("Patient social security id is invalid !");
-		}
+		return isValid; 
 	}
 	
 	private static boolean rgValidator(String ssn) {
@@ -36,7 +32,7 @@ public class PatientValidationUtil {
 			if(ssn.matches(RG_PATTERN)) {
 				String rg = ssn.replaceAll(DIGIT_ONLY, "");
 				if(rg.length() == 9) {
-					int digit = rgDigitCalculator(rg.substring(rg.length()-1, rg.length()));
+					int digit = rgDigitCalculator(rg.substring(0, rg.length()-1));
 					if(rg.substring(rg.length()-1, rg.length()).equalsIgnoreCase("x") && digit == 10 
 							|| (Integer.parseInt(rg.substring(rg.length()-1, rg.length())) == digit)) {
 						isValid = true;
